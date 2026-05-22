@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
     Alert,
     KeyboardAvoidingView,
@@ -17,7 +17,6 @@ import { Formik } from "formik";
 import { RootStackParamList } from "../../../navigations/types";
 import { authService } from "../../../services/authService";
 import { SVG_ICON } from "../../../assets/Svg/svgIcon";
-import { SH } from "../../../utils/Dimensions";
 import COLORS from "../../../utils/constant";
 import { getAddressFromCoordinates, requestAndFetchLocation, LocationResult } from "../../../utils/locationHelper";
 import { registrationSchema } from "../../../utils/validationSchema";
@@ -32,6 +31,13 @@ import styles from "./styles";
 
 type CustomerRegisterScreenProps = {
     navigation: NativeStackNavigationProp<RootStackParamList, 'CustomerRegister'>;
+};
+
+const AutoFetchLocation = ({ onMount, setFieldValue }: { onMount: (setFieldValue: any) => void, setFieldValue: any }) => {
+    useEffect(() => {
+        onMount(setFieldValue);
+    }, [onMount, setFieldValue]);
+    return null;
 };
 
 const CustomerRegisterScreen = ({ navigation }: CustomerRegisterScreenProps) => {
@@ -60,49 +66,50 @@ const CustomerRegisterScreen = ({ navigation }: CustomerRegisterScreenProps) => 
                 mobile: values.mobile,
                 serviceAreas: values.address,
                 location: {
-                    type: "Point",
-                    coordinates: [86.2029, 22.8046] // Default coordinates
+                    coordinates: values.coordinates || [86.2029, 22.8046]
                 },
                 role: "user"
             };
 
             const response = await authService.register(payload);
-            console.log("response", response);
+            console.log("[CUSTOMER REGISTER] Response:", response);
             setIsRegistering(false);
 
-            Alert.alert('Registration Successful', 'OTP sent for verification', [
+            Alert.alert('Registration Successful', response.message || 'OTP sent for verification', [
                 {
-                    text: 'Verify Now',
+                    text: 'Verify OTP',
                     onPress: () => navigation.navigate('VerifyOTP', { email: values.email, fromRegister: true })
                 }
             ]);
         } catch (error: any) {
             setIsRegistering(false);
             console.error('Registration error:', error);
-            Alert.alert('Error', error.response?.data?.message || 'Registration failed');
+            const errorMessage = error.response?.data?.message || error.message || 'Registration failed';
+            Alert.alert('Error', errorMessage);
         }
     };
 
-    const handleFindAddress = async (setFieldValue: (field: string, value: string) => void) => {
+    const handleFindAddress = useCallback(async (setFieldValue: (field: string, value: any) => void) => {
         try {
             setLoadingLocation(true);
             const result: LocationResult = await requestAndFetchLocation();
             if (result.error) {
-                Alert.alert('Error', 'Location permission denied or unavailable');
+                // Don't show alert on auto-fetch failure to avoid annoying the user on load
+                // Alert.alert('Error', 'Location permission denied or unavailable');
                 return;
             }
             if (result.coords) {
                 const { latitude, longitude } = result.coords;
                 const fetchedAddress = await getAddressFromCoordinates(latitude, longitude);
                 setFieldValue('address', fetchedAddress);
+                setFieldValue('coordinates', [longitude, latitude]);
             }
-        } catch (error) {
+        } catch (error: unknown) {
             console.error("Location error:", error);
-            Alert.alert('Error', 'Failed to fetch location address');
         } finally {
             setLoadingLocation(false);
         }
-    };
+    }, []);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -121,7 +128,7 @@ const CustomerRegisterScreen = ({ navigation }: CustomerRegisterScreenProps) => 
                 keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
             >
                 <ScrollView
-                    contentContainerStyle={{ flexGrow: 1, paddingBottom: SH(50) }}
+                    contentContainerStyle={{ flexGrow: 1, paddingBottom: 50 }}
                     keyboardShouldPersistTaps="handled"
                     showsVerticalScrollIndicator={false}
                 >
@@ -133,12 +140,14 @@ const CustomerRegisterScreen = ({ navigation }: CustomerRegisterScreenProps) => 
                             address: '',
                             password: '',
                             confirmPassword: '',
+                            coordinates: [86.2029, 22.8046], // Default Jamshedpur coordinates
                         }}
                         validationSchema={registrationSchema}
                         onSubmit={handleRegister}
                     >
                         {({ handleChange, handleSubmit, values, errors, touched, setFieldValue }) => (
                             <View style={styles.inputContainer}>
+                                <AutoFetchLocation setFieldValue={setFieldValue} onMount={handleFindAddress} />
                                 <InputField
                                     label="Full Name"
                                     placeholder="Enter your full name"
@@ -216,7 +225,7 @@ const CustomerRegisterScreen = ({ navigation }: CustomerRegisterScreenProps) => 
                                     title="Sign Up as Customer"
                                     onPress={() => handleSubmit()}
                                     type="filled"
-                                    containerStyle={{ marginTop: SH(20) }}
+                                    containerStyle={{ marginTop: 20 }}
                                     loading={isRegistering}
                                     rightIcon={SVG_ICON.arrow_Right(COLORS.WHITE)}
                                 />

@@ -5,7 +5,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigations/types";
 import FastImage from "react-native-fast-image";
 import GradientButton from "../../components/GradientButton";
-import { SH } from "../../utils/Dimensions";
 import COLORS from "../../utils/constant";
 import { SVG_ICON } from "../../assets/Svg/svgIcon";
 import styles from "./style";
@@ -40,7 +39,7 @@ const ChooseRoleScreen = ({ navigation }: ChooseRoleScreenProps) => {
                         title="Register as Customer"
                         onPress={() => navigation.navigate('CustomerRegister')}
                         type="filled"
-                        containerStyle={{ marginBottom: SH(15) }}
+                        containerStyle={{ marginBottom: 15 }}
                         rightIcon={SVG_ICON.arrow_Right(COLORS.WHITE)}
                     />
                     

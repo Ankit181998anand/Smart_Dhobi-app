@@ -1,12 +1,19 @@
-import { Provider, Analytics, Order } from '../types';
+import { Provider, Analytics, Order, User } from '../types';
 import apiClient from './apiClient';
 
-export interface ProviderProfileResponse {
-  provider: Provider;
+export interface ProviderProfileResponse extends Partial<Provider> {
+  success?: boolean;
+  message?: string;
+  data?: Provider;
+  provider?: Provider;
+  user?: User;
 }
 
 export interface ProviderListResponse {
-  providers: Provider[];
+  success?: boolean;
+  data: Provider[];
+  providers?: Provider[];
+  pagination?: any;
 }
 
 export interface ProviderOrdersResponse {
@@ -19,8 +26,8 @@ export const providerService = {
     return response.data;
   },
 
-  getAll: async (): Promise<ProviderListResponse> => {
-    const response = await apiClient.get('/providers/');
+  getAll: async (params?: { lat?: number; lon?: number; maxDistance?: number }): Promise<ProviderListResponse> => {
+    const response = await apiClient.get('/providers/', { params });
     return response.data;
   },
 
@@ -49,7 +56,7 @@ export const providerService = {
     return response.data;
   },
 
-  getAnalytics: async (): Promise<Analytics> => {
+  getAnalytics: async (): Promise<{ success: boolean; data: Analytics }> => {
     const response = await apiClient.get('/providers/analytics');
     return response.data;
   },

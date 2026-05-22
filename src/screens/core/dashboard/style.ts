@@ -1,30 +1,28 @@
 import { StyleSheet } from "react-native";
 import COLORS, { FONT_FAMILY_EXTRABOLD, FONT_FAMILY_MEDIUM, FONT_FAMILY_SEMIBOLD } from "../../../utils/constant";
-import { SF, SH, SW } from "../../../utils/Dimensions";
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLORS.WHITE,
-        paddingHorizontal: SW(20)
+        paddingHorizontal: 20
     },
     title: {
-        fontSize: SF(19),
+        fontSize: 19,
         fontFamily: FONT_FAMILY_EXTRABOLD,
-        marginBottom: SH(4),
-        // marginTop: SH(16),
+        marginBottom: 4,
         color: COLORS.BLACK
     },
     subtitle: {
-        fontSize: SF(13),
+        fontSize: 13,
         color: COLORS.DarkGray,
         fontFamily: FONT_FAMILY_SEMIBOLD,
-        marginBottom: SH(16),
+        marginBottom: 16,
     },
     rowCardContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: SH(12),
+        marginBottom: 12,
     },
     card: {
         width: '48%',
@@ -41,44 +39,44 @@ const styles = StyleSheet.create({
     },
 
     cardTitle: {
-        fontSize: SF(12),
+        fontSize: 12,
         fontFamily: FONT_FAMILY_SEMIBOLD,
         color: COLORS.BLACK,
     },
     ImgIcon: {
-        width: SW(18),
-        height: SH(18),
+        width: 18,
+        height: 18,
         tintColor: COLORS.DarkGray
     },
     cardValue: {
-        fontSize: SF(18),
+        fontSize: 18,
         fontFamily: FONT_FAMILY_EXTRABOLD,
-        marginTop: SH(8),
+        marginTop: 8,
         color: COLORS.BLACK,
     },
     sectionTitle: {
-        fontSize: SF(15),
+        fontSize: 15,
         fontFamily: FONT_FAMILY_EXTRABOLD,
         color: COLORS.BLACK
     },
     contact: {
-        marginBottom: SH(4),
-        fontSize: SF(13),
+        marginBottom: 4,
+        fontSize: 13,
         fontFamily: FONT_FAMILY_SEMIBOLD,
         color: COLORS.DarkGrey
     },
     profileContainer: {
-        marginTop: SH(0),
+        marginTop: 0,
     },
     profileHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: SH(15)
+        marginBottom: 15
     },
     editProfile: {
         color: '#2563EB',
-        fontSize: SF(13),
+        fontSize: 13,
         fontFamily: FONT_FAMILY_SEMIBOLD,
     },
 
@@ -86,15 +84,15 @@ const styles = StyleSheet.create({
         padding: 15,
         backgroundColor: '#fff',
         borderRadius: 12,
-        marginTop: SH(8),
+        marginTop: 8,
         borderColor: '#ccc',
         borderWidth: 1,
     },
 
     avatar: {
         backgroundColor: '#F3E8FF',
-        width: SW(48),
-        height: SH(48),
+        width: 48,
+        height: 48,
         borderRadius: 24,
         alignItems: 'center',
         justifyContent: 'center',
@@ -102,7 +100,7 @@ const styles = StyleSheet.create({
     },
 
     avatarText: {
-        fontSize: SF(20),
+        fontSize: 20,
         fontFamily: FONT_FAMILY_EXTRABOLD,
         color: '#9333EA',
     },
@@ -110,41 +108,41 @@ const styles = StyleSheet.create({
     profileRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: SH(12),
+        marginBottom: 12,
     },
 
     iconRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: SH(8),
+        marginBottom: 8,
     },
 
     icon: {
-        marginRight: SW(8),
-        bottom: SH(1)
+        marginRight: 8,
+        bottom: 1
     },
     deleteIcon: {
-        width: SW(18),
-        height: SH(18),
-        marginRight: SW(8),
+        width: 18,
+        height: 18,
+        marginRight: 8,
         resizeMode: 'contain',
         tintColor: COLORS.DarkGray
     },
 
     profileName: {
-        fontSize: SF(15),
+        fontSize: 15,
         fontFamily: FONT_FAMILY_SEMIBOLD,
         color: COLORS.BLACK,
     },
 
     owner: {
-        fontSize: SF(13),
+        fontSize: 13,
         fontFamily: FONT_FAMILY_MEDIUM,
         color: '#6B7280',
     },
 
     location: {
-        fontSize: SF(13),
+        fontSize: 13,
         fontFamily: FONT_FAMILY_MEDIUM,
         color: COLORS.DarkGrey,
         flex: 1,
@@ -152,7 +150,7 @@ const styles = StyleSheet.create({
     },
 
     rating: {
-        fontSize: SF(13),
+        fontSize: 13,
         fontFamily: FONT_FAMILY_MEDIUM,
         color: COLORS.DarkGrey
     },
@@ -160,68 +158,71 @@ const styles = StyleSheet.create({
     divider: {
         height: 1,
         backgroundColor: '#E5E7EB',
-        marginVertical: SH(12),
+        marginVertical: 12,
     },
 
     statusRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: SH(4),
+        marginBottom: 4,
     },
 
     statusLabel: {
-        fontSize: SF(13),
+        fontSize: 13,
         fontFamily: FONT_FAMILY_SEMIBOLD,
         color: '#6B7280',
     },
 
     activeStatus: {
-        fontSize: SF(13),
+        fontSize: 13,
         fontFamily: FONT_FAMILY_SEMIBOLD,
         color: 'green',
     },
     statusValue: {
-        fontSize: SF(13),
+        fontSize: 13,
         fontFamily: FONT_FAMILY_SEMIBOLD,
         color: COLORS.BLACK,
     },
 
     servicesContainer: {
-        marginVertical: SH(12),
-        paddingBottom: SH(16),
-        padding: 15,
+        paddingBottom: 16,
+        paddingHorizontal: 10,
         backgroundColor: '#fff',
-        borderRadius: 12,
-        borderColor: '#ccc',
-        borderWidth: 1,
     },
 
     servicesHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: SH(7),
+        marginBottom: 7,
     },
     addButton: {
         backgroundColor: '#A000F1',
-        paddingHorizontal: SW(14),
-        paddingVertical: SH(8),
+        paddingHorizontal: 14,
+        paddingVertical: 8,
         borderRadius: 10,
     },
 
     addButtonText: {
         color: COLORS.WHITE,
         fontFamily: FONT_FAMILY_SEMIBOLD,
-        fontSize: SF(13),
+        fontSize: 13,
+    },
+    scrollMessage: {
+        fontSize: 12,
+        color: COLORS.GRAY_500,
+        textAlign: 'center',
+        marginTop: 5,
+        fontStyle: 'italic',
     },
     servicesGrid: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        gap: SW(12),
+        gap: 12,
     },
 
     serviceCard: {
-        width: SW(144),
+        width: 144,
         borderWidth: 1,
         borderColor: '#E5E7EB',
         borderRadius: 10,
@@ -233,17 +234,17 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: SH(8),
+        marginBottom: 8,
     },
 
     serviceName: {
-        fontSize: SF(14),
+        fontSize: 14,
         fontFamily: FONT_FAMILY_SEMIBOLD,
         color: COLORS.BLACK,
     },
 
     servicePrice: {
-        fontSize: SF(15),
+        fontSize: 15,
         fontFamily: FONT_FAMILY_EXTRABOLD,
         color: '#A000F1',
     },
@@ -260,14 +261,14 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.WHITE,
     },
     headerSection: {
-        marginBottom: SH(20),
+        marginBottom: 20,
     },
     categorySection: {
-        marginTop: SH(10),
+        marginTop: 10,
     },
     catCard: {
-        marginRight: SW(15),
-        width: SW(90),
+        marginRight: 15,
+        width: 90,
         borderRadius: 15,
         overflow: 'hidden',
         borderWidth: 1,
@@ -279,9 +280,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     catText: {
-        fontSize: SF(11),
+        fontSize: 11,
         fontFamily: FONT_FAMILY_SEMIBOLD,
-        marginTop: SH(8),
+        marginTop: 8,
         color: COLORS.BLACK,
         textAlign: 'center',
     },
@@ -301,44 +302,258 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     promoTitle: {
-        fontSize: SF(24),
+        fontSize: 24,
         fontFamily: FONT_FAMILY_EXTRABOLD,
         color: COLORS.WHITE,
     },
     promoSubtitle: {
-        fontSize: SF(14),
+        fontSize: 14,
         fontFamily: FONT_FAMILY_MEDIUM,
         color: COLORS.WHITE,
         opacity: 0.9,
     },
     promoButton: {
         backgroundColor: COLORS.WHITE,
-        paddingHorizontal: SW(15),
-        paddingVertical: SH(6),
+        paddingHorizontal: 15,
+        paddingVertical: 6,
         borderRadius: 10,
-        marginTop: SH(10),
+        marginTop: 10,
         alignSelf: 'flex-start',
     },
     promoButtonText: {
         color: COLORS.PURPLE_600,
         fontFamily: FONT_FAMILY_EXTRABOLD,
-        fontSize: SF(12),
+        fontSize: 12,
     },
     nearCard: {
         backgroundColor: COLORS.WHITE,
         borderRadius: 15,
         padding: 15,
-        marginBottom: SH(12),
+        marginBottom: 12,
         borderWidth: 1,
         borderColor: COLORS.GRAY_100,
     },
     emptyText: {
-        fontSize: SF(13),
+        fontSize: 13,
         fontFamily: FONT_FAMILY_MEDIUM,
         color: COLORS.GRAY_400,
         textAlign: 'center',
         width: '100%',
-        marginTop: SH(20),
+        marginTop: 20,
+    },
+    // Filter Styles
+    filterContainer: {
+        backgroundColor: '#F9FAFB',
+        borderRadius: 15,
+        padding: 15,
+        marginBottom: 20,
+        borderWidth: 1,
+        borderColor: '#E5E7EB',
+        zIndex: 1000,
+        elevation: 5,
+    },
+    filterRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 15,
+    },
+    toggleGroup: {
+        flexDirection: 'row',
+        backgroundColor: '#F3F4F6',
+        borderRadius: 10,
+        padding: 4,
+    },
+    toggleBtn: {
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderRadius: 8,
+    },
+    toggleBtnActive: {
+        backgroundColor: COLORS.WHITE,
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2,
+    },
+    toggleText: {
+        fontSize: 12,
+        fontFamily: FONT_FAMILY_SEMIBOLD,
+        color: '#6B7280',
+    },
+    toggleTextActive: {
+        color: COLORS.PURPLE_600,
+    },
+    dropdownWrapper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    label: {
+        fontSize: 12,
+        fontFamily: FONT_FAMILY_MEDIUM,
+        color: '#6B7280',
+        marginRight: 8,
+    },
+    picker: {
+        backgroundColor: COLORS.WHITE,
+        borderWidth: 1,
+        borderColor: '#D1D5DB',
+        borderRadius: 8,
+        paddingHorizontal: 10,
+        paddingVertical: 4,
+        flexDirection: 'row',
+        alignItems: 'center',
+        minWidth: 80,
+        justifyContent: 'space-between'
+    },
+    pickerText: {
+        fontSize: 12,
+        fontFamily: FONT_FAMILY_SEMIBOLD,
+        color: COLORS.BLACK,
+        marginRight: 4,
+    },
+    actionRow: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+    },
+    locationBtn: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 12,
+        paddingVertical: 8,
+        borderRadius: 10,
+        backgroundColor: '#F3F4F6',
+        marginRight: 10,
+    },
+    locationBtnText: {
+        fontSize: 12,
+        fontFamily: FONT_FAMILY_SEMIBOLD,
+        color: '#4B5563',
+        marginLeft: 6,
+    },
+    findBtn: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        borderRadius: 10,
+        backgroundColor: '#A000F1',
+    },
+    findBtnText: {
+        fontSize: 14,
+        fontFamily: FONT_FAMILY_EXTRABOLD,
+        color: COLORS.WHITE,
+        marginLeft: 6,
+    },
+    locationBadge: {
+        backgroundColor: '#EFF6FF',
+        padding: 12,
+        borderRadius: 10,
+        marginBottom: 20,
+        borderWidth: 1,
+        borderColor: '#DBEAFE',
+    },
+    locationBadgeTitle: {
+        fontSize: 13,
+        fontFamily: FONT_FAMILY_SEMIBOLD,
+        color: '#1E40AF',
+        marginBottom: 4,
+    },
+    locationBadgeText: {
+        fontSize: 12,
+        fontFamily: FONT_FAMILY_MEDIUM,
+        color: '#2563EB',
+    },
+    distanceText: {
+        fontSize: 12,
+        fontFamily: FONT_FAMILY_SEMIBOLD,
+        color: '#9333EA',
+        textAlign: 'right',
+    },
+    dropdownMenu: {
+        position: 'absolute',
+        top: 40,
+        right: 0,
+        backgroundColor: COLORS.WHITE,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: '#E5E7EB',
+        width: 120,
+        elevation: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.15,
+        shadowRadius: 8,
+        zIndex: 2000,
+    },
+    dropdownItem: {
+        paddingVertical: 12,
+        paddingHorizontal: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: '#F3F4F6',
+    },
+    dropdownItemText: {
+        fontSize: 13,
+        fontFamily: FONT_FAMILY_MEDIUM,
+        color: '#4B5563',
+    },
+    bookBtn: {
+        backgroundColor: '#D81B60', 
+        paddingVertical: 12,
+        borderRadius: 12,
+        alignItems: 'center',
+        marginTop: 12,
+    },
+    bookBtnText: {
+        color: COLORS.WHITE,
+        fontSize: 15,
+        fontFamily: FONT_FAMILY_SEMIBOLD,
+    },
+    serviceTagContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginTop: 8,
+    },
+    serviceTag: {
+        backgroundColor: '#F3E8FF',
+        paddingHorizontal: 12,
+        paddingVertical: 4,
+        borderRadius: 20,
+        marginRight: 8,
+        marginBottom: 6,
+        borderWidth: 1,
+        borderColor: '#E9D5FF',
+    },
+    serviceTagText: {
+        fontSize: 11,
+        color: '#7E22CE',
+        fontFamily: FONT_FAMILY_MEDIUM,
+    },
+    ownerName: {
+        fontSize: 13,
+        fontFamily: FONT_FAMILY_MEDIUM,
+        color: '#4B5563',
+        marginBottom: 8,
+    },
+    infoRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 6,
+    },
+    infoText: {
+        fontSize: 12,
+        color: '#4B5563',
+        fontFamily: FONT_FAMILY_MEDIUM,
+        marginLeft: 8,
+        flex: 1,
+    },
+    statText: {
+        fontSize: 12,
+        color: '#6B7280',
+        fontFamily: FONT_FAMILY_MEDIUM,
+        marginLeft: 6,
     },
 });
 

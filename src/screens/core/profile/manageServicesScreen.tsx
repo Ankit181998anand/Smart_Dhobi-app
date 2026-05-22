@@ -11,11 +11,11 @@ import {
     Modal,
     TextInput,
     StatusBar,
+    TouchableWithoutFeedback,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import COLORS, { FONT_FAMILY_EXTRABOLD, FONT_FAMILY_MEDIUM, FONT_FAMILY_SEMIBOLD } from '../../../utils/constant';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SF, SH, SW } from '../../../utils/Dimensions';
 import { providerService } from '../../../services/providerService';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
@@ -41,7 +41,9 @@ const ManageServicesScreen = () => {
             setIsLoading(true);
             const providerId = user?.mainUserId || user?._id || '';
             const response = await providerService.getProfile(providerId);
-            setServices(response.provider?.services || []);
+            console.log("ManageServices - Provider Data:", response.data || response);
+            const providerData = response.data || response.provider || response;
+            setServices(providerData.services || []);
         } catch (error) {
             console.error("Fetch services error:", error);
             // Alert.alert("Error", "Failed to load services");
@@ -85,9 +87,9 @@ const ManageServicesScreen = () => {
             "Are you sure you want to remove this service?",
             [
                 { text: "Cancel", style: "cancel" },
-                { 
-                    text: "Delete", 
-                    style: "destructive", 
+                {
+                    text: "Delete",
+                    style: "destructive",
                     onPress: async () => {
                         try {
                             const providerId = user?.mainUserId || user?._id || '';
@@ -112,9 +114,9 @@ const ManageServicesScreen = () => {
     return (
         <SafeAreaView style={[styles.container, { paddingTop: insets.top }]}>
             <StatusBar barStyle="dark-content" />
-            <Header 
-                title="Manage Services" 
-                isLeftIcon 
+            <Header
+                title="Manage Services"
+                isLeftIcon
                 leftIconSource={SVG_ICON.arrow_back(COLORS.BLACK)}
                 onLeftPress={() => navigation.goBack()}
             />
@@ -124,9 +126,9 @@ const ManageServicesScreen = () => {
                     <ActivityIndicator size="large" color={COLORS.PURPLE_600} />
                 </View>
             ) : (
-                <ScrollView contentContainerStyle={{ padding: SW(16), paddingBottom: SH(100) }}>
+                <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 100 }}>
                     <Text style={styles.subtitle}>Define the items and pricing you offer to customers.</Text>
-                    
+
                     {services.map((service) => (
                         <View key={service._id} style={styles.serviceCard}>
                             <View style={styles.serviceInfo}>
@@ -135,10 +137,10 @@ const ManageServicesScreen = () => {
                             </View>
                             <View style={styles.actions}>
                                 <TouchableOpacity onPress={() => openEdit(service)} style={styles.actionBtn}>
-                                    <SvgXml xml={SVG_ICON.Edit_Icon(COLORS.BLUE_600)} width={SW(20)} height={SH(20)} />
+                                    <SvgXml xml={SVG_ICON.Edit_Icon(COLORS.BLUE_600)} width={20} height={20} />
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={() => handleDelete(service._id)} style={styles.actionBtn}>
-                                    <SvgXml xml={SVG_ICON.Check_Circle(COLORS.RED)} width={SW(20)} height={SH(20)} />
+                                    <SvgXml xml={SVG_ICON.Check_Circle(COLORS.RED)} width={20} height={20} />
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -152,8 +154,8 @@ const ManageServicesScreen = () => {
                 </ScrollView>
             )}
 
-            <TouchableOpacity 
-                style={[styles.fab, { bottom: insets.bottom + SH(20) }]}
+            <TouchableOpacity
+                style={[styles.fab, { bottom: insets.bottom + 20 }]}
                 onPress={() => {
                     setEditingService(null);
                     setName('');
@@ -166,38 +168,47 @@ const ManageServicesScreen = () => {
                 </LinearGradient>
             </TouchableOpacity>
 
-            <Modal visible={showModal} transparent animationType="slide">
-                <View style={styles.modalOverlay}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>{editingService ? 'Edit Service' : 'Add New Service'}</Text>
-                        
-                        <Text style={styles.label}>Service Name</Text>
-                        <TextInput 
-                            style={styles.input}
-                            placeholder="e.g., Wash & Fold (Shirt)"
-                            value={name}
-                            onChangeText={setName}
-                        />
+            <Modal
+                visible={showModal}
+                transparent
+                animationType="slide"
+                onRequestClose={() => setShowModal(false)}
+            >
+                <TouchableWithoutFeedback onPress={() => setShowModal(false)}>
+                    <View style={styles.modalOverlay}>
+                        <TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
+                            <View style={styles.modalContent}>
+                                <Text style={styles.modalTitle}>{editingService ? 'Edit Service' : 'Add New Service'}</Text>
 
-                        <Text style={styles.label}>Price (₹)</Text>
-                        <TextInput 
-                            style={styles.input}
-                            placeholder="e.g., 20"
-                            keyboardType="numeric"
-                            value={price}
-                            onChangeText={setPrice}
-                        />
+                                <Text style={styles.label}>Service Name</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="e.g., Wash & Fold (Shirt)"
+                                    value={name}
+                                    onChangeText={setName}
+                                />
 
-                        <View style={styles.modalFooter}>
-                            <TouchableOpacity style={styles.cancelBtn} onPress={() => setShowModal(false)}>
-                                <Text style={styles.cancelBtnText}>Cancel</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.saveBtn} onPress={handleSave}>
-                                <Text style={styles.saveBtnText}>Save Service</Text>
-                            </TouchableOpacity>
-                        </View>
+                                <Text style={styles.label}>Price (₹)</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="e.g., 20"
+                                    keyboardType="numeric"
+                                    value={price}
+                                    onChangeText={setPrice}
+                                />
+
+                                <View style={styles.modalFooter}>
+                                    <TouchableOpacity style={styles.cancelBtn} onPress={() => setShowModal(false)}>
+                                        <Text style={styles.cancelBtnText}>Cancel</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={styles.saveBtn} onPress={handleSave}>
+                                        <Text style={styles.saveBtnText}>Save Service</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </TouchableWithoutFeedback>
                     </View>
-                </View>
+                </TouchableWithoutFeedback>
             </Modal>
         </SafeAreaView>
     );
@@ -209,10 +220,10 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.GRAY_50,
     },
     subtitle: {
-        fontSize: SF(14),
+        fontSize: 14,
         color: COLORS.GRAY_400,
         fontFamily: FONT_FAMILY_MEDIUM,
-        marginBottom: SH(20),
+        marginBottom: 20,
     },
     loadingContainer: {
         flex: 1,
@@ -226,7 +237,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: SH(12),
+        marginBottom: 12,
         elevation: 2,
         shadowColor: COLORS.BLACK,
         shadowOffset: { width: 0, height: 2 },
@@ -237,30 +248,30 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     serviceName: {
-        fontSize: SF(16),
+        fontSize: 16,
         fontFamily: FONT_FAMILY_SEMIBOLD,
         color: COLORS.BLACK,
     },
     servicePrice: {
-        fontSize: SF(14),
+        fontSize: 14,
         fontFamily: FONT_FAMILY_EXTRABOLD,
         color: COLORS.PURPLE_600,
-        marginTop: SH(4),
+        marginTop: 4,
     },
     actions: {
         flexDirection: 'row',
     },
     actionBtn: {
         padding: 8,
-        marginLeft: SW(10),
+        marginLeft: 10,
     },
     fab: {
         position: 'absolute',
-        right: SW(16),
-        left: SW(16),
+        right: 16,
+        left: 16,
     },
     fabGradient: {
-        paddingVertical: SH(15),
+        paddingVertical: 15,
         borderRadius: 15,
         alignItems: 'center',
         justifyContent: 'center',
@@ -269,10 +280,10 @@ const styles = StyleSheet.create({
     fabText: {
         color: COLORS.WHITE,
         fontFamily: FONT_FAMILY_EXTRABOLD,
-        fontSize: SF(16),
+        fontSize: 16,
     },
     emptyContainer: {
-        marginTop: SH(100),
+        marginTop: 100,
         alignItems: 'center',
     },
     emptyText: {
@@ -292,24 +303,24 @@ const styles = StyleSheet.create({
         paddingBottom: 40,
     },
     modalTitle: {
-        fontSize: SF(20),
+        fontSize: 20,
         fontFamily: FONT_FAMILY_EXTRABOLD,
         color: COLORS.BLACK,
-        marginBottom: SH(20),
+        marginBottom: 20,
     },
     label: {
-        fontSize: SF(14),
+        fontSize: 14,
         fontFamily: FONT_FAMILY_SEMIBOLD,
         color: COLORS.GRAY_600,
-        marginBottom: SH(8),
+        marginBottom: 8,
     },
     input: {
         backgroundColor: COLORS.GRAY_50,
         borderRadius: 12,
         padding: 15,
-        marginBottom: SH(20),
+        marginBottom: 20,
         fontFamily: FONT_FAMILY_MEDIUM,
-        fontSize: SF(14),
+        fontSize: 14,
         borderWidth: 1,
         borderColor: COLORS.GRAY_100,
     },
@@ -319,9 +330,9 @@ const styles = StyleSheet.create({
     },
     cancelBtn: {
         flex: 1,
-        paddingVertical: SH(15),
+        paddingVertical: 15,
         alignItems: 'center',
-        marginRight: SW(10),
+        marginRight: 10,
     },
     cancelBtnText: {
         fontFamily: FONT_FAMILY_SEMIBOLD,
@@ -330,7 +341,7 @@ const styles = StyleSheet.create({
     saveBtn: {
         flex: 2,
         backgroundColor: COLORS.PURPLE_600,
-        paddingVertical: SH(15),
+        paddingVertical: 15,
         borderRadius: 12,
         alignItems: 'center',
     },

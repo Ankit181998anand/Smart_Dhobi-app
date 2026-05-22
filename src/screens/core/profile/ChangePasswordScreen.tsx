@@ -14,7 +14,6 @@ import { authService } from '../../../services/authService';
 import Header from '../../../components/Header';
 import GradientButton from '../../../components/GradientButton';
 import InputField from '../../../components/InputField';
-import { SH } from '../../../utils/Dimensions';
 import COLORS from '../../../utils/constant';
 import { SVG_ICON } from '../../../assets/Svg/svgIcon';
 import styles from '../../auth/register/styles';
@@ -97,7 +96,7 @@ const ChangePasswordScreen = ({ navigation }: any) => {
                 >
                     <ScrollView
                         style={{ flex: 1 }}
-                        contentContainerStyle={{ paddingBottom: SH(50), paddingTop: SH(20) }}
+                        contentContainerStyle={{ paddingBottom: 50, paddingTop: 20 }}
                         showsVerticalScrollIndicator={false}
                     >
                         <View style={styles.inputContainer}>
@@ -108,18 +107,18 @@ const ChangePasswordScreen = ({ navigation }: any) => {
                                 iconSource={SVG_ICON.mail_Icon(COLORS.GRAY_100)}
                             />
 
-                            <View style={{ marginTop: SH(10) }}>
+                            <View style={{ marginTop: 10 }}>
                                 <GradientButton
                                     title={otpSent ? "Resend OTP" : "Send OTP to Email"}
                                     onPress={handleSendOTP}
                                     type="outlined"
                                     loading={isLoading && !otpSent}
-                                    containerStyle={{ height: SH(45) }}
+                                    containerStyle={{ height: 45 }}
                                 />
                             </View>
 
                             {otpSent && (
-                                <View style={{ marginTop: SH(30) }}>
+                                <View style={{ marginTop: 30 }}>
                                     <InputField
                                         label="Enter OTP"
                                         placeholder="123456"
@@ -147,7 +146,7 @@ const ChangePasswordScreen = ({ navigation }: any) => {
                                         iconSource={SVG_ICON.lock_Icon(COLORS.DarkGray)}
                                     />
 
-                                    <View style={{ height: SH(40) }} />
+                                    <View style={{ height: 40 }} />
 
                                     <GradientButton
                                         title="Update Password"

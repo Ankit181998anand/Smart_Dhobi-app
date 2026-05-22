@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, TextInput, Text, TouchableOpacity, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { SF, SH, SW } from '../utils/Dimensions';
 import COLORS, { FONT_FAMILY_SEMIBOLD } from '../utils/constant';
 import { SvgXml } from 'react-native-svg';
 import { SVG_ICON } from '../assets/Svg/svgIcon';
@@ -18,9 +17,9 @@ const LocationSearchBar: React.FC<Props> = ({ value, onFindPress, loading }) => 
             <TouchableOpacity onPress={onFindPress} disabled={loading}>
                 <SvgXml
                     xml={SVG_ICON.Location_Icon("#A855F7")}
-                    width={SW(20)}
-                    height={SH(20)}
-                    style={{ marginRight: SW(10) }}
+                    width={20}
+                    height={20}
+                    style={{ marginRight: 10 }}
                 />
             </TouchableOpacity>
 
@@ -77,8 +76,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: '#fff',
         borderRadius: 50,
-        paddingHorizontal: SW(13),
-        paddingVertical: SH(8),
+        paddingHorizontal: 13,
+        paddingVertical: 8,
         alignItems: 'center',
         shadowColor: '#a855f7',
         shadowOffset: { width: 0, height: 2 },
@@ -88,19 +87,19 @@ const styles = StyleSheet.create({
         margin: 20,
     },
     icon: {
-        width: SW(20),
-        height: SH(20),
-        marginRight: SW(10),
+        width: 20,
+        height: 20,
+        marginRight: 10,
         tintColor: '#A855F7'
     },
     searchIcon: {
-        width: SW(20),
-        height: SH(20),
+        width: 20,
+        height: 20,
         tintColor: COLORS.WHITE
     },
     input: {
         flex: 1,
-        fontSize: SF(14),
+        fontSize: 14,
         color: '#111827',
     },
     buttonWrapper: {
@@ -110,22 +109,21 @@ const styles = StyleSheet.create({
     button: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: SW(13),
-        paddingVertical: SH(8),
+        paddingHorizontal: 13,
+        paddingVertical: 8,
         borderRadius: 50,
     },
     buttonText: {
         color: '#fff',
-        fontSize: SF(12),
+        fontSize: 12,
         fontFamily: FONT_FAMILY_SEMIBOLD
     },
     inputWrapper: {
         flex: 1,
     },
     addressText: {
-        fontSize: SF(12),
+        fontSize: 12,
         fontFamily: FONT_FAMILY_SEMIBOLD,
         color: "#111827",
     },
 });
-

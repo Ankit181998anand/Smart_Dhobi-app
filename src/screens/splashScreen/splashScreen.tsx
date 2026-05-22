@@ -5,7 +5,7 @@ import { RootStackParamList } from "../../navigations/types";
 import FastImage from 'react-native-fast-image';
 import styles from "./style";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import type { RootState } from "../../redux/store";
 import { View } from "react-native";
 
 type SplashScreenProps = {

@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 import COLORS, { FONT_FAMILY_EXTRABOLD, FONT_FAMILY_MEDIUM, FONT_FAMILY_REGULAR, FONT_FAMILY_SEMIBOLD } from "../../../utils/constant";
-import { SF, SH, SW } from "../../../utils/Dimensions";
 
 const styles = StyleSheet.create({
     container: {
@@ -12,9 +11,9 @@ const styles = StyleSheet.create({
     },
     error: {
         color: COLORS.RED,
-        fontSize: SF(11),
-        marginBottom: SH(10),
-        marginTop: SH(-8),
+        fontSize: 11,
+        marginBottom: 10,
+        marginTop: -8,
         fontFamily: FONT_FAMILY_REGULAR
     },
     btn: {
@@ -36,15 +35,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: SH(10),
+        marginVertical: 10,
     },
     loginText: {
-        fontSize: SF(12),
+        fontSize: 12,
         color: '#6B7280',
         fontFamily: FONT_FAMILY_MEDIUM,
     },
     loginLink: {
-        fontSize: SF(13),
+        fontSize: 13,
         // color: '#8B5CF6',
         color: '#8f00ff',
         fontFamily: FONT_FAMILY_SEMIBOLD,
@@ -55,30 +54,30 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 20,
         justifyContent: 'flex-start', // Align items to the top
         alignItems: 'center',
-        paddingTop: SH(10),
+        paddingTop: 10,
     },
     rightSection: {
         flex: 2.5,
         backgroundColor: COLORS.WHITE,
-        paddingTop: SH(30)
+        paddingTop: 30
     },
     logo: {
-        width: SW(100),
+        width: 100,
         aspectRatio: 1,
     },
     forgotBtn: {
         alignSelf: 'flex-start',
-        marginTop: SH(4),
-        marginBottom: SH(40),
+        marginTop: 4,
+        marginBottom: 40,
     },
     forgotText: {
         color: '#8f00ff',
-        fontSize: SF(12),
+        fontSize: 12,
         fontFamily: FONT_FAMILY_MEDIUM
     },
     progressWrapper: {
-        paddingHorizontal: SW(20),
-        marginVertical: SH(15),
+        paddingHorizontal: 20,
+        marginVertical: 15,
     },
     progressRow: {
         flexDirection: 'row',
@@ -90,47 +89,47 @@ const styles = StyleSheet.create({
         // flex: 1,   
     },
     circle: {
-        width: SW(30),
-        height: SW(30),
-        borderRadius: SW(15),
+        width: 30,
+        height: 30,
+        borderRadius: 15,
         backgroundColor: '#ccc',
         justifyContent: 'center',
         alignItems: 'center',
     },
     checkIcon: {
-        width: SW(18),
-        height: SW(18),
+        width: 18,
+        height: 18,
         tintColor: COLORS.WHITE, // optional if your image is black and needs white tint
     },
     circleText: {
         color: COLORS.WHITE,
         fontFamily: FONT_FAMILY_SEMIBOLD,
-        fontSize: SF(13)
+        fontSize: 13
     },
     stepLabel: {
-        marginTop: SH(5),
-        fontSize: SW(12),
+        marginTop: 5,
+        fontSize: 12,
         textAlign: 'center',
         fontFamily: FONT_FAMILY_MEDIUM
     },
     bottomBarContainer: {
-        height: SH(5),
+        height: 5,
         backgroundColor: '#E5E7EB',
-        borderRadius: SH(3),
-        marginTop: SH(10),
+        borderRadius: 3,
+        marginTop: 10,
         overflow: 'hidden',
     },
     bottomBarFill: {
-        height: SH(6),
-        borderRadius: SH(3),
+        height: 6,
+        borderRadius: 3,
     },
     stepContainer: {
-        paddingHorizontal: SW(20),
-        paddingTop: SH(10),
-        paddingBottom: SH(30),
+        paddingHorizontal: 20,
+        paddingTop: 10,
+        paddingBottom: 30,
         backgroundColor: '#f9f9f9',
-        borderRadius: SW(12),
-        margin: SW(10),
+        borderRadius: 12,
+        margin: 10,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
@@ -139,36 +138,36 @@ const styles = StyleSheet.create({
 
     },
     stepTitle: {
-        fontSize: SF(18),
+        fontSize: 18,
         fontFamily: FONT_FAMILY_EXTRABOLD,
         color: COLORS.BLACK,
-        marginBottom: SH(5),
+        marginBottom: 5,
         textAlign: 'center'
     },
 
     stepSubtitle: {
-        fontSize: SF(13),
+        fontSize: 13,
         color: COLORS.DarkGray,
         fontFamily: FONT_FAMILY_SEMIBOLD,
-        marginBottom: SH(20),
+        marginBottom: 20,
         textAlign: 'center'
     },
     privacyBox: {
         flexDirection: 'row',
         alignItems: 'flex-start', // ✅ makes icon top-aligned
         backgroundColor: '#F5F8FF',
-        padding: SW(16),
-        borderRadius: SW(14),
+        padding: 16,
+        borderRadius: 14,
         borderWidth: 1,
         borderColor: '#CCE0FF',
-        marginTop: SH(20),
+        marginTop: 20,
     },
 
     privcyIcon: {
-        width: SW(18),
-        height: SH(18),
-        marginRight: SW(6),
-        marginTop: SH(3), // optional: adjust icon slightly lower if needed
+        width: 18,
+        height: 18,
+        marginRight: 6,
+        marginTop: 3, // optional: adjust icon slightly lower if needed
         tintColor: '#004EEB', // optional: matches the blue tone
     },
 
@@ -177,16 +176,16 @@ const styles = StyleSheet.create({
     },
 
     privacyTitle: {
-        fontSize: SF(15),
+        fontSize: 15,
         fontFamily: FONT_FAMILY_SEMIBOLD,
         color: COLORS.BLACK,
-        marginBottom: SH(4),
+        marginBottom: 4,
     },
     privacyText: {
-        fontSize: SF(13),
+        fontSize: 13,
         fontFamily: FONT_FAMILY_MEDIUM,
         color: '#004EEB',
-        lineHeight: SH(18),
+        lineHeight: 18,
     },
     serviceRow: {
         flexDirection: 'row',
@@ -194,118 +193,118 @@ const styles = StyleSheet.create({
     },
     step3inputContainer: {
         flex: 1,
-        marginRight: SW(8),
+        marginRight: 8,
     },
     priceContainer: {
-        width: SW(100), // or adjust as needed
-        marginRight: SW(8),
+        width: 100, // or adjust as needed
+        marginRight: 8,
     },
     deleteBtn: {
         backgroundColor: '#FF4D4D',
-        borderRadius: SW(10),
-        height: SH(48),
-        paddingHorizontal: SW(10),
+        borderRadius: 10,
+        height: 48,
+        paddingHorizontal: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        top: SH(3)
+        top: 3
     },
     deleteIcon: {
-        width: SW(16),
-        height: SH(16),
+        width: 16,
+        height: 16,
         tintColor: COLORS.WHITE,
     },
     addBtn: {
         alignItems: 'center',
         backgroundColor: '#f2f2f2',
-        paddingVertical: SH(10),
-        borderRadius: SW(8),
-        marginBottom: SH(15),
-        width: SW(120)
+        paddingVertical: 10,
+        borderRadius: 8,
+        marginBottom: 15,
+        width: 120
     },
     addBtnText: {
-        fontSize: SF(13),
+        fontSize: 13,
         fontFamily: FONT_FAMILY_MEDIUM,
         color: COLORS.BLACK,
     },
     noteBox: {
         backgroundColor: '#fffbe5',
-        padding: SW(10),
-        marginTop: SH(15),
-        borderRadius: SW(10),
+        padding: 10,
+        marginTop: 15,
+        borderRadius: 10,
     },
     noteTitle: {
         fontWeight: '600',
-        marginBottom: SH(5),
+        marginBottom: 5,
     },
     noteText: {
         fontWeight: '600',
-        marginBottom: SH(5),
+        marginBottom: 5,
     },
     buttonGroup: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingHorizontal: SW(20),
-        marginBottom: SH(20),
-        marginTop: SH(10),
+        paddingHorizontal: 20,
+        marginBottom: 20,
+        marginTop: 10,
     },
 
     backBtn: {
-        paddingVertical: SH(10),
-        paddingHorizontal: SW(40),
+        paddingVertical: 10,
+        paddingHorizontal: 40,
         backgroundColor: '#f0f0f0',
-        borderRadius: SW(8),
-        marginRight: SW(10),
+        borderRadius: 8,
+        marginRight: 10,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        gap: SW(5)
+        gap: 5
     },
     backIcon: {
-        width: SW(18),
-        height: SH(18),
+        width: 18,
+        height: 18,
         tintColor: COLORS.BLACK
     },
 
     backText: {
         color: COLORS.PRIMARY,
-        fontSize: SF(14),
+        fontSize: 14,
         fontFamily: FONT_FAMILY_SEMIBOLD
     },
     step4Container: {
-        paddingHorizontal: SW(20),
-        paddingBottom: SH(30),
+        paddingHorizontal: 20,
+        paddingBottom: 30,
         backgroundColor: COLORS.WHITE,
-        borderRadius: SW(12),
-        paddingTop: SH(5),
+        borderRadius: 12,
+        paddingTop: 5,
     },
     reviewBox: {
         backgroundColor: '#f9f9f9',
-        padding: SW(15),
-        marginVertical: SH(10),
-        borderRadius: SW(10),
+        padding: 15,
+        marginVertical: 10,
+        borderRadius: 10,
     },
     reviewSectionTitle: {
         fontFamily: FONT_FAMILY_EXTRABOLD,
-        fontSize: SW(16),
+        fontSize: 16,
         color: COLORS.BLACK,
     },
     reviewRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: SH(6),
+        marginBottom: 6,
     },
 
     reviewLabel: {
-        fontSize: SW(14),
+        fontSize: 14,
         fontFamily: FONT_FAMILY_SEMIBOLD,
         color: COLORS.BLACK,
         flex: 1,
     },
 
     reviewValue: {
-        fontSize: SW(14),
+        fontSize: 14,
         fontFamily: FONT_FAMILY_MEDIUM,
         color: COLORS.DarkGray,
         flex: 1,
@@ -313,8 +312,8 @@ const styles = StyleSheet.create({
     },
 
     reviewText: {
-        fontSize: SW(14),
-        marginBottom: SH(4),
+        fontSize: 14,
+        marginBottom: 4,
         fontFamily: FONT_FAMILY_SEMIBOLD,
         color: COLORS.BLACK,
     },
@@ -323,45 +322,45 @@ const styles = StyleSheet.create({
     sectionHeader: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: SH(10),
+        marginBottom: 10,
     },
     badge: {
-        width: SW(24),
-        height: SW(24),
-        borderRadius: SW(12),
+        width: 24,
+        height: 24,
+        borderRadius: 12,
         backgroundColor: '#3b82f6',
         justifyContent: 'center',
         alignItems: 'center',
-        marginRight: SW(8),
+        marginRight: 8,
     },
 
     badgeText: {
         color: COLORS.WHITE,
         fontFamily: FONT_FAMILY_SEMIBOLD,
-        fontSize: SW(14),
+        fontSize: 14,
     },
 
     submitBtn: {
         backgroundColor: '#22c55e',
-        paddingVertical: SH(10),
-        paddingHorizontal: SW(10),
-        borderRadius: SW(8),
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+        borderRadius: 8,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        gap: SH(10)
+        gap: 10
     },
     secureicon: {
-        width: SW(18),
-        height: SH(18),
+        width: 18,
+        height: 18,
         tintColor: COLORS.WHITE
     },
 
     submitBtnText: {
         color: COLORS.WHITE,
         fontFamily: FONT_FAMILY_SEMIBOLD,
-        fontSize: SW(14),
+        fontSize: 14,
     },
 
 

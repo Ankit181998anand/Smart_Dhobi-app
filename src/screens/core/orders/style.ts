@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 import COLORS, { FONT_FAMILY_EXTRABOLD, FONT_FAMILY_MEDIUM, FONT_FAMILY_SEMIBOLD } from "../../../utils/constant";
-import { SF, SH, SW } from "../../../utils/Dimensions";
 
 const styles = StyleSheet.create({
     container: {
@@ -11,8 +10,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingHorizontal: SW(16),
-        paddingVertical: SH(10),
+        paddingHorizontal: 16,
+        paddingVertical: 10,
         backgroundColor: '#fff',
         borderBottomWidth: 1,
         borderBottomColor: '#e9ecef',
@@ -23,31 +22,31 @@ const styles = StyleSheet.create({
         elevation: 3,
       },
       headerTitle: {
-        fontSize: SF(18),
+        fontSize: 18,
         fontFamily: FONT_FAMILY_EXTRABOLD,
         color: '#333',
       },
       ordersSummary: {
-        paddingHorizontal: SW(15),
-        paddingVertical: SH(10),
+        paddingHorizontal: 15,
+        paddingVertical: 10,
         backgroundColor: '#e9ecef',
         borderBottomWidth: 1,
         borderBottomColor: '#dee2e6',
       },
       totalOrdersText: {
-        fontSize: SF(15),
+        fontSize: 15,
         fontFamily: FONT_FAMILY_SEMIBOLD,
         color: '#555',
       },
       listContent: {
-        paddingHorizontal: SW(15),
-        paddingVertical: SH(10),
+        paddingHorizontal: 15,
+        paddingVertical: 10,
       },
       orderCard: {
         backgroundColor: '#fff',
         borderRadius: 8,
         padding: 15,
-        marginBottom: SH(10),
+        marginBottom: 10,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.1,
@@ -58,38 +57,47 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: SH(10),
-        borderBottomWidth: 1,
-        borderBottomColor: '#eee',
-        paddingBottom: SH(8),
-      },
+        marginBottom: 10,
+        paddingBottom: 8,
+    },
+    divider: {
+        height: 1,
+        backgroundColor: '#F3F4F6',
+        marginVertical: 10,
+    },
+    paymentStatus: {
+        fontSize: 12,
+        fontFamily: FONT_FAMILY_EXTRABOLD,
+    },
       orderId: {
-        fontSize: SF(14),
+        fontSize: 14,
         fontFamily: FONT_FAMILY_SEMIBOLD,
         color: '#333',
       },
       orderDate: {
-        fontSize: SF(13),
+        fontSize: 13,
         fontFamily: FONT_FAMILY_SEMIBOLD,
         color: '#666',
       },
       orderDetailsRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: SH(5),
+        marginBottom: 5,
       },
       detailLabel: {
-        fontSize: SF(13),
+        fontSize: 13,
         fontFamily: FONT_FAMILY_SEMIBOLD,
         color: '#555',
       },
       detailValue: {
-        fontSize: SF(13),
+        fontSize: 13,
         fontFamily: FONT_FAMILY_SEMIBOLD,
         color: '#777',
+        flexShrink: 1,
+        marginLeft: 10,
       },
       detailValueAmount: {
-        fontSize: SF(14),
+        fontSize: 14,
         fontFamily: FONT_FAMILY_SEMIBOLD,
         color: '#28a745', // Green for amount
       },
@@ -97,14 +105,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginTop: SH(10),
-        paddingTop: SH(8),
+        marginTop: 10,
+        paddingTop: 8,
         borderTopWidth: 1,
         borderTopColor: '#eee',
       },
       statusBadge: {
-        paddingHorizontal: SW(10),
-        paddingVertical: SH(5),
+        paddingHorizontal: 10,
+        paddingVertical: 5,
         borderRadius: 5,
       },
       statusAccepted: {
@@ -116,34 +124,34 @@ const styles = StyleSheet.create({
       statusCompleted: {
         backgroundColor: '#cfe2ff', // Light blue
       },
-      statusText: {
-        fontSize: SF(12),
-        fontFamily: FONT_FAMILY_SEMIBOLD,
-        color: '#28a745', // Darker green for text
-      },
+    statusText: {
+        fontSize: 11,
+        fontFamily: FONT_FAMILY_EXTRABOLD,
+        color: COLORS.WHITE,
+    },
       viewButton: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingVertical: SH(5),
-        paddingHorizontal: SW(10),
+        paddingVertical: 5,
+        paddingHorizontal: 10,
         borderRadius: 5,
         backgroundColor: '#e7f0fa', // Light blue background
-        gap: SW(7)
+        gap: 7
       },
       viewButtonText: {
         color: '#007bff',
-        marginRight: SW(5),
+        marginRight: 5,
         fontFamily: FONT_FAMILY_SEMIBOLD,
-        fontSize: SF(13)
+        fontSize: 13
       },
       IconStyle:{
-        width: SW(20),
-        height: SH(20),
+        width: 20,
+        height: 20,
         tintColor: COLORS.BLACK
       },
       viewIconStyle:{
-        width: SW(18),
-        height: SH(18),
+        width: 18,
+        height: 18,
         tintColor: COLORS.DarkGray
       },
       loadingContainer: {
@@ -152,8 +160,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
       },
       loadingText: {
-        marginTop: SH(10),
-        fontSize: SF(13),
+        marginTop: 10,
+        fontSize: 13,
         fontFamily: FONT_FAMILY_MEDIUM,
         color: '#555',
       },
@@ -163,7 +171,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
       },
       emptyListText: {
-        fontSize: SF(16),
+        fontSize: 16,
         color: '#777',
         fontFamily: FONT_FAMILY_SEMIBOLD
       },

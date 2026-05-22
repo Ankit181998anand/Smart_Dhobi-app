@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, ImageSourcePropType, ViewStyle, ImageStyle } from 'react-native';
+import { View, Text, StyleSheet, ViewStyle, ImageStyle } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { SH, SW, SF } from '../utils/Dimensions';
 import COLORS, { FONT_FAMILY_EXTRABOLD, FONT_FAMILY_MEDIUM, FONT_FAMILY_SEMIBOLD } from '../utils/constant';
 import { SvgXml } from 'react-native-svg';
 
@@ -45,21 +44,21 @@ export default FeatureCard;
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#FAFAFF',
-    borderRadius: SW(14),
-    paddingVertical: SH(20),
-    paddingHorizontal: SW(30),
+    borderRadius: 14,
+    paddingVertical: 20,
+    paddingHorizontal: 30,
     alignItems: 'center',
-    marginBottom: SH(16),
+    marginBottom: 16,
     borderWidth: 1,
     borderColor: '#E0E0F0',
   },
   stepBadge: {
     position: 'absolute',
-    top: SH(8),
-    right: SW(8),
-    width: SW(24),
-    height: SW(24),
-    borderRadius: SW(12),
+    top: 8,
+    right: 8,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
     backgroundColor: COLORS.WHITE, // light purple background
     borderWidth: 2,
     borderColor: '#E9D5FF',
@@ -67,34 +66,34 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   stepText: {
-    fontSize: SF(12),
+    fontSize: 12,
     fontFamily: FONT_FAMILY_EXTRABOLD,
     color: '#9333EA',
   },
   iconWrapper: {
-    width: SW(40),
-    height: SW(40),
-    borderRadius: SW(20),
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: SH(14),
+    marginBottom: 14,
   },
   icon: {
-    width: SW(22),
-    height: SW(22),
+    width: 22,
+    height: 22,
     tintColor: COLORS.BLACK
   },
   title: {
-    fontSize: SF(15),
+    fontSize: 15,
     fontFamily: FONT_FAMILY_SEMIBOLD,
     color: '#111827',
     textAlign: 'center',
   },
   subtitle: {
-    fontSize: SF(13),
+    fontSize: 13,
     fontFamily: FONT_FAMILY_MEDIUM,
     color: '#4B5563',
     textAlign: 'center',
-    marginTop: SH(4),
+    marginTop: 4,
   },
 });

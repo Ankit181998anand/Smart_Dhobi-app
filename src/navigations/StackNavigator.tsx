@@ -15,6 +15,9 @@ import ManageServicesScreen from '../screens/core/profile/manageServicesScreen';
 import EditProfileScreen from '../screens/core/profile/editProfileScreen';
 import AddressListScreen from '../screens/core/profile/addressListScreen';
 import ChangePasswordScreen from '../screens/core/profile/ChangePasswordScreen';
+import PrivacyPolicyScreen from '../screens/core/profile/privacyPolicyScreen';
+import TermsOfServiceScreen from '../screens/core/profile/termsOfServiceScreen';
+import ContactUsScreen from '../screens/core/profile/contactUsScreen';
 
 import VerifyOTPScreen from '../screens/auth/verifyOtp/verifyOtpScreen';
 import ForgotPasswordScreen from '../screens/auth/forgotPassword/forgotPasswordScreen';
@@ -42,6 +45,9 @@ const StackNavigator = () => {
       <Stack.Screen name="EditProfile" component={EditProfileScreen} />
       <Stack.Screen name="AddressList" component={AddressListScreen} />
       <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
+      <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicyScreen} />
+      <Stack.Screen name="TermsOfService" component={TermsOfServiceScreen} />
+      <Stack.Screen name="ContactUs" component={ContactUsScreen} />
     </Stack.Navigator>
   );
 };

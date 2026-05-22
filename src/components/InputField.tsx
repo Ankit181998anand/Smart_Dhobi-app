@@ -10,7 +10,6 @@ import {
   ActivityIndicator,
   ViewStyle,
 } from 'react-native';
-import { SF, SH, SW } from '../utils/Dimensions';
 import { FONT_FAMILY_MEDIUM, FONT_FAMILY_SEMIBOLD } from '../utils/constant';
 import { SvgXml } from 'react-native-svg';
 
@@ -55,8 +54,8 @@ const InputField: React.FC<InputFieldProps> = ({
             ) : (
               <SvgXml
                 xml={iconSource}
-                width={SW(20)}
-                height={SH(20)}
+                width={20}
+                height={20}
                 style={styles.icon}
               />
             )}
@@ -80,8 +79,8 @@ const InputField: React.FC<InputFieldProps> = ({
             <Image
               source={
                 secure
-                  ? require('../assets/icons/visibility_off.png')
-                  : require('../assets/icons/visibility_on.png')
+                   ? require('../assets/icons/visibility_off.png')
+                   : require('../assets/icons/visibility_on.png')
               }
               style={styles.eyeIcon}
               resizeMode="contain"
@@ -98,11 +97,11 @@ export default InputField;
 
 const styles = StyleSheet.create({
   wrapper: {
-    marginBottom: SH(16),
+    marginBottom: 16,
   },
   label: {
-    fontSize: SF(13),
-    marginBottom: SH(4),
+    fontSize: 13,
+    marginBottom: 4,
     color: '#333',
     fontFamily: FONT_FAMILY_SEMIBOLD
   },
@@ -111,23 +110,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
     borderColor: '#ccc',
-    paddingHorizontal: SW(10),
-    paddingVertical: SH(0),
+    paddingHorizontal: 10,
+    paddingVertical: 0,
     borderRadius: 8,
     backgroundColor: '#fff',
   },
   icon: {
-    marginRight: SW(8),
+    marginRight: 8,
   },
   eyeIcon: {
-    width: SW(18),
-    height: SH(18),
-    marginLeft: SW(8),
+    width: 18,
+    height: 18,
+    marginLeft: 8,
   },
   input: {
     flex: 1,
     color: '#333',
     fontFamily: FONT_FAMILY_MEDIUM,
-    fontSize: SF(13)
+    fontSize: 13
   },
 });

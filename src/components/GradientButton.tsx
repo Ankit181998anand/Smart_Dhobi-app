@@ -10,7 +10,6 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { SF, SH, SW } from '../utils/Dimensions';
 import { FONT_FAMILY_SEMIBOLD } from '../utils/constant';
 import { SvgXml } from 'react-native-svg';
 
@@ -31,75 +30,6 @@ interface GradientButtonProps {
   disabled?: boolean;
   gradientColors?: string[];
 }
-
-// const GradientButton: React.FC<GradientButtonProps> = ({
-//     title,
-//     icon,
-//     rightIcon,
-//     onPress,
-//     type = 'filled',
-//     containerStyle,
-//     textStyle,
-//     iconStyle,
-//     iconColor,
-//     rightIconColor,
-//     loading = false,
-//     disabled = false,
-// }) => {
-//     const gradientColors = ['#8B5CF6', '#EC4899'];
-
-//     const arrowTintColor = type === 'outlined' ? '#A855F7' : '#fff';
-
-//     const content = (
-//         <View style={[styles.content]}>
-//             {icon && (
-//                 <SvgXml
-//                     xml={icon}
-//                     width={SW(20)}
-//                     height={SH(20)}
-//                     style={[styles.icon, iconStyle]}
-//                 />
-//             )}
-//             <Text
-//                 style={[
-//                     styles.text,
-//                     type === 'outlined' ? styles.outlinedText : styles.filledText,
-//                     textStyle,
-//                 ]}
-//             >
-//                 {title}
-//             </Text>
-//             {rightIcon && (
-//                 <SvgXml
-//                     xml={rightIcon}
-//                     width={SW(18)}
-//                     height={SH(18)}
-//                     style={styles.arrowIcon}
-//                 />
-//             )}
-//         </View>
-//     );
-
-//     if (type === 'outlined') {
-//         return (
-//             <TouchableOpacity
-//                 onPress={onPress}
-//                 style={[styles.outlinedButton, containerStyle]}
-//                 activeOpacity={0.8}
-//             >
-//                 {content}
-//             </TouchableOpacity>
-//         );
-//     }
-
-//     return (
-//         <TouchableOpacity onPress={onPress} style={containerStyle} activeOpacity={0.8}>
-//             <LinearGradient colors={gradientColors} style={styles.filledButton}>
-//                 {content}
-//             </LinearGradient>
-//         </TouchableOpacity>
-//     );
-// };
 
 const GradientButton: React.FC<GradientButtonProps> = ({
   title,
@@ -124,8 +54,8 @@ const GradientButton: React.FC<GradientButtonProps> = ({
       {icon && (
         <SvgXml
           xml={icon}
-          width={SW(20)}
-          height={SH(20)}
+          width={20}
+          height={20}
           style={[styles.icon, iconStyle]}
         />
       )}
@@ -141,8 +71,8 @@ const GradientButton: React.FC<GradientButtonProps> = ({
       {rightIcon && (
         <SvgXml
           xml={rightIcon}
-          width={SW(18)}
-          height={SH(18)}
+          width={18}
+          height={18}
           style={styles.arrowIcon}
         />
       )}
@@ -180,15 +110,15 @@ export default GradientButton;
 
 const styles = StyleSheet.create({
   filledButton: {
-    paddingVertical: SH(12),
-    paddingHorizontal: SW(20),
+    paddingVertical: 12,
+    paddingHorizontal: 20,
     borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'center',
   },
   outlinedButton: {
-    paddingVertical: SH(12),
-    paddingHorizontal: SW(20),
+    paddingVertical: 12,
+    paddingHorizontal: 20,
     borderRadius: 30,
     borderWidth: 1,
     borderColor: '#E9D5FF',
@@ -202,7 +132,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    fontSize: SF(14),
+    fontSize: 14,
     fontFamily: FONT_FAMILY_SEMIBOLD,
   },
   filledText: {
@@ -212,13 +142,13 @@ const styles = StyleSheet.create({
     color: '#A855F7',
   },
   icon: {
-    width: SW(20),
-    height: SH(20),
-    marginRight: SW(10),
+    width: 20,
+    height: 20,
+    marginRight: 10,
   },
   arrowIcon: {
-    width: SW(16),
-    height: SH(16),
-    marginLeft: SW(6),
+    width: 16,
+    height: 16,
+    marginLeft: 6,
   },
 });

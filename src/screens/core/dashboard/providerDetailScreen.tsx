@@ -14,13 +14,12 @@ import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../../navigations/types';
 import COLORS, { FONT_FAMILY_EXTRABOLD, FONT_FAMILY_MEDIUM, FONT_FAMILY_SEMIBOLD } from '../../../utils/constant';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SF, SH, SW } from '../../../utils/Dimensions';
 import { providerService } from '../../../services/providerService';
 import { SvgXml } from 'react-native-svg';
 import { SVG_ICON } from '../../../assets/Svg/svgIcon';
 import Header from '../../../components/Header';
 import LinearGradient from 'react-native-linear-gradient';
-import { Provider, Service } from '../../../types';
+import { Provider, Service, OrderItem } from '../../../types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type ProviderDetailRouteProp = RouteProp<RootStackParamList, 'ProviderDetail'>;
@@ -33,13 +32,14 @@ const ProviderDetailScreen = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [provider, setProvider] = useState<Provider | null>(null);
-    const [cart, setCart] = useState<(Service & { quantity: number })[]>([]);
+    const [cart, setCart] = useState<OrderItem[]>([]);
 
     const fetchProviderDetails = useCallback(async () => {
         try {
             setIsLoading(true);
             const response = await providerService.getProfile(providerId);
-            setProvider(response.provider);
+            const providerData = (response.data || response.provider || response) as any;
+            setProvider(providerData);
         } catch (error) {
             console.error("Fetch provider details error:", error);
             Alert.alert("Error", "Failed to load provider details");
@@ -54,7 +54,7 @@ const ProviderDetailScreen = () => {
 
     const updateCart = (service: Service, delta: number) => {
         setCart(prevCart => {
-            const existingIndex = prevCart.findIndex(item => item._id === service._id);
+            const existingIndex = prevCart.findIndex(item => item.serviceId === service._id);
             if (existingIndex > -1) {
                 const newCart = [...prevCart];
                 const newQty = (newCart[existingIndex].quantity || 1) + delta;
@@ -65,14 +65,19 @@ const ProviderDetailScreen = () => {
                 }
                 return newCart;
             } else if (delta > 0) {
-                return [...prevCart, { ...service, quantity: 1 }];
+                return [...prevCart, {
+                    serviceId: service._id,
+                    name: service.name,
+                    price: service.price,
+                    quantity: 1
+                }];
             }
             return prevCart;
         });
     };
 
     const getItemQty = (serviceId: string) => {
-        const item = cart.find(i => i._id === serviceId);
+        const item = cart.find(i => i.serviceId === serviceId);
         return item ? item.quantity : 0;
     };
 
@@ -90,36 +95,75 @@ const ProviderDetailScreen = () => {
     return (
         <SafeAreaView style={[styles.container, { paddingTop: insets.top }]}>
             <StatusBar barStyle="dark-content" />
-            <Header 
-                title={provider?.name || 'Laundry Partner'} 
-                isLeftIcon 
+            <Header
+                title={provider?.name || 'Laundry Partner'}
+                isLeftIcon
                 leftIconSource={SVG_ICON.arrow_back(COLORS.BLACK)}
                 onLeftPress={() => navigation.goBack()}
             />
 
-            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: SH(100) }}>
+            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 100 }}>
                 {/* Provider Header Card */}
                 <View style={styles.providerInfoCard}>
-                    <LinearGradient 
-                        colors={['#8B5CF6', '#EC4899']} 
+                    <LinearGradient
+                        colors={['#8B5CF6', '#EC4899']}
                         style={styles.headerGradient}
-                        start={{x:0, y:0}} end={{x:1, y:1}}
+                        start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
                     >
-                        <View style={styles.avatar}>
-                            <Text style={styles.avatarText}>{provider?.name?.charAt(0).toUpperCase()}</Text>
-                        </View>
-                        <View style={styles.headerTextWrapper}>
-                            <Text style={styles.providerName}>{provider?.name}</Text>
-                            <View style={styles.ratingRow}>
-                                <SvgXml xml={SVG_ICON.Star_Icon(COLORS.WHITE)} width={SW(14)} height={SH(14)} />
-                                <Text style={styles.ratingText}>{provider?.rating || '4.5'} (20+ reviews)</Text>
+                        <View style={styles.headerTop}>
+                            <View style={styles.avatar}>
+                                <Text style={styles.avatarText}>{provider?.name?.charAt(0).toUpperCase()}</Text>
+                            </View>
+                            <View style={styles.headerTextWrapper}>
+                                <Text style={styles.providerName}>{provider?.name}</Text>
+                                <View style={styles.ratingRow}>
+                                    <SvgXml xml={SVG_ICON.Star_Icon(COLORS.WHITE)} width={14} height={14} />
+                                    <Text style={styles.ratingText}>{provider?.rating || '0'} ({provider?.totalReviews || '0'} reviews)</Text>
+                                </View>
                             </View>
                         </View>
                     </LinearGradient>
+
                     <View style={styles.detailsSection}>
-                        <View style={styles.detailItem}>
-                            <SvgXml xml={SVG_ICON.Location_Icon(COLORS.GRAY_500)} width={SW(16)} height={SH(16)} />
-                            <Text style={styles.detailText}>{provider?.serviceAreas}</Text>
+                        <View style={styles.sectionHeader}>
+                            <Text style={styles.sectionTitleSmall}>Business Details</Text>
+                            <View style={styles.verifiedBadge}>
+                                <SvgXml xml={SVG_ICON.Check_Circle('#059669')} width={10} height={10} />
+                                <Text style={styles.verifiedText}>Verified</Text>
+                            </View>
+                        </View>
+
+                        <View>
+                            <View style={styles.compactInfoRow}>
+                                <View style={styles.compactIconContainer}>
+                                    <SvgXml xml={SVG_ICON.Location_Icon('#8B5CF6')} width={16} height={16} />
+                                </View>
+                                <Text style={styles.infoValueCompact} numberOfLines={2}>{provider?.serviceAreas || provider?.address}</Text>
+                            </View>
+
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
+                                <View style={[styles.compactInfoRow, { flex: 1, marginRight: 10 }]}>
+                                    <View style={styles.compactIconContainer}>
+                                        <SvgXml xml={SVG_ICON.Experts('#8B5CF6')} width={16} height={16} />
+                                    </View>
+                                    <Text style={styles.infoValueCompact} numberOfLines={1}>{provider?.owner || 'Partner'}</Text>
+                                </View>
+                                <View style={[styles.compactInfoRow, { flex: 1 }]}>
+                                    <View style={styles.compactIconContainer}>
+                                        <SvgXml xml={SVG_ICON.Call_Icon('#8B5CF6')} width={16} height={16} />
+                                    </View>
+                                    <Text style={styles.infoValueCompact} numberOfLines={1}>{provider?.mobile}</Text>
+                                </View>
+                            </View>
+
+                            {provider?.email && (
+                                <View style={[styles.compactInfoRow, { marginTop: 10 }]}>
+                                    <View style={styles.compactIconContainer}>
+                                        <SvgXml xml={SVG_ICON.mail_Icon('#8B5CF6')} width={16} height={16} />
+                                    </View>
+                                    <Text style={styles.infoValueCompact} numberOfLines={1}>{provider?.email}</Text>
+                                </View>
+                            )}
                         </View>
                     </View>
                 </View>
@@ -137,22 +181,22 @@ const ProviderDetailScreen = () => {
                                 <View style={styles.qtyContainer}>
                                     {getItemQty(service._id) > 0 ? (
                                         <View style={styles.qtyRow}>
-                                            <TouchableOpacity 
-                                                style={styles.qtyBtn} 
+                                            <TouchableOpacity
+                                                style={styles.qtyBtn}
                                                 onPress={() => updateCart(service, -1)}
                                             >
                                                 <Text style={styles.qtyBtnText}>-</Text>
                                             </TouchableOpacity>
                                             <Text style={styles.qtyValue}>{getItemQty(service._id)}</Text>
-                                            <TouchableOpacity 
-                                                style={styles.qtyBtn} 
+                                            <TouchableOpacity
+                                                style={styles.qtyBtn}
                                                 onPress={() => updateCart(service, 1)}
                                             >
                                                 <Text style={styles.qtyBtnText}>+</Text>
                                             </TouchableOpacity>
                                         </View>
                                     ) : (
-                                        <TouchableOpacity 
+                                        <TouchableOpacity
                                             style={styles.addBtn}
                                             onPress={() => updateCart(service, 1)}
                                         >
@@ -170,22 +214,22 @@ const ProviderDetailScreen = () => {
 
             {/* Bottom Cart Bar */}
             {cart.length > 0 && (
-                <View style={[styles.bottomBar, { bottom: insets.bottom + SH(10) }]}>
-                    <LinearGradient 
-                        colors={['#4F46E5', '#7C3AED']} 
+                <View style={[styles.bottomBar, { bottom: insets.bottom + 10 }]}>
+                    <LinearGradient
+                        colors={['#4F46E5', '#7C3AED']}
                         style={styles.cartGradient}
-                        start={{x:0, y:0}} end={{x:1, y:0}}
+                        start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                     >
                         <View>
                             <Text style={styles.cartQty}>{cart.length} item(s) selected</Text>
                             <Text style={styles.cartTotal}>₹{totalAmount}</Text>
                         </View>
-                        <TouchableOpacity 
+                        <TouchableOpacity
                             style={styles.checkoutBtn}
                             onPress={() => navigation.navigate('Checkout', { providerId, items: cart })}
                         >
                             <Text style={styles.checkoutBtnText}>Checkout</Text>
-                            <SvgXml xml={SVG_ICON.arrow_Right(COLORS.WHITE)} width={SW(16)} height={SH(16)} />
+                            <SvgXml xml={SVG_ICON.arrow_Right(COLORS.WHITE)} width={16} height={16} />
                         </TouchableOpacity>
                     </LinearGradient>
                 </View>
@@ -206,12 +250,12 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.WHITE,
     },
     loadingText: {
-        marginTop: SH(10),
+        marginTop: 10,
         fontFamily: FONT_FAMILY_MEDIUM,
         color: COLORS.GRAY_500,
     },
     providerInfoCard: {
-        margin: SW(16),
+        margin: 16,
         backgroundColor: COLORS.WHITE,
         borderRadius: 20,
         overflow: 'hidden',
@@ -223,20 +267,26 @@ const styles = StyleSheet.create({
     },
     headerGradient: {
         padding: 20,
+        paddingVertical: 10,
         flexDirection: 'row',
         alignItems: 'center',
     },
+    headerTop: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '100%',
+    },
     avatar: {
-        width: SW(60),
-        height: SH(60),
+        width: 30,
+        height: 30,
         borderRadius: 30,
         backgroundColor: COLORS.WHITE,
         justifyContent: 'center',
         alignItems: 'center',
-        marginRight: SW(16),
+        marginRight: 16,
     },
     avatarText: {
-        fontSize: SF(24),
+        fontSize: 15,
         fontFamily: FONT_FAMILY_EXTRABOLD,
         color: COLORS.PURPLE_600,
     },
@@ -244,18 +294,18 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     providerName: {
-        fontSize: SF(20),
+        fontSize: 15,
         fontFamily: FONT_FAMILY_EXTRABOLD,
         color: COLORS.WHITE,
     },
     ratingRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: SH(4),
+        marginTop: 4,
     },
     ratingText: {
-        marginLeft: SW(4),
-        fontSize: SF(12),
+        marginLeft: 4,
+        fontSize: 12,
         color: COLORS.WHITE,
         fontFamily: FONT_FAMILY_MEDIUM,
     },
@@ -263,31 +313,71 @@ const styles = StyleSheet.create({
         padding: 15,
         backgroundColor: COLORS.WHITE,
     },
-    detailItem: {
+    sectionHeader: {
         flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
+        marginBottom: 10,
     },
-    detailText: {
-        marginLeft: SW(8),
-        fontSize: SF(13),
-        color: COLORS.GRAY_600,
-        fontFamily: FONT_FAMILY_MEDIUM,
-    },
-    serviceSection: {
-        paddingHorizontal: SW(16),
-        marginTop: SH(10),
-    },
-    sectionTitle: {
-        fontSize: SF(18),
+    sectionTitleSmall: {
+        fontSize: 16,
         fontFamily: FONT_FAMILY_EXTRABOLD,
         color: COLORS.BLACK,
-        marginBottom: SH(15),
+    },
+    verifiedBadge: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#D1FAE5',
+        paddingHorizontal: 10,
+        paddingVertical: 4,
+        borderRadius: 20,
+    },
+    verifiedText: {
+        fontSize: 11,
+        color: '#059669',
+        fontFamily: FONT_FAMILY_SEMIBOLD,
+        marginLeft: 4,
+    },
+    compactInfoRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#F9FAFB',
+        paddingVertical: 8,
+        paddingHorizontal: 10,
+        borderRadius: 12,
+        borderWidth: 1,
+        borderColor: '#F3F4F6',
+    },
+    compactIconContainer: {
+        width: 28,
+        height: 28,
+        borderRadius: 8,
+        backgroundColor: '#EDE9FE',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 8,
+    },
+    infoValueCompact: {
+        fontSize: 12,
+        color: COLORS.BLACK,
+        fontFamily: FONT_FAMILY_SEMIBOLD,
+        flex: 1,
+    },
+    serviceSection: {
+        paddingHorizontal: 16,
+        marginTop: 10,
+    },
+    sectionTitle: {
+        fontSize: 18,
+        fontFamily: FONT_FAMILY_EXTRABOLD,
+        color: COLORS.BLACK,
+        marginBottom: 15,
     },
     serviceItem: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingVertical: SH(15),
+        paddingVertical: 15,
         borderBottomWidth: 1,
         borderBottomColor: COLORS.GRAY_100,
     },
@@ -295,63 +385,63 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     serviceName: {
-        fontSize: SF(15),
+        fontSize: 15,
         fontFamily: FONT_FAMILY_SEMIBOLD,
         color: COLORS.BLACK,
     },
     servicePrice: {
-        fontSize: SF(13),
+        fontSize: 13,
         color: COLORS.PURPLE_600,
         fontFamily: FONT_FAMILY_EXTRABOLD,
-        marginTop: SH(2),
+        marginTop: 2,
     },
     qtyContainer: {
-        width: SW(100),
+        width: 100,
         alignItems: 'flex-end',
     },
     addBtn: {
         borderWidth: 1,
         borderColor: COLORS.PURPLE_600,
-        paddingHorizontal: SW(15),
-        paddingVertical: SH(6),
+        paddingHorizontal: 15,
+        paddingVertical: 6,
         borderRadius: 8,
     },
     addBtnText: {
         color: COLORS.PURPLE_600,
         fontFamily: FONT_FAMILY_EXTRABOLD,
-        fontSize: SF(12),
+        fontSize: 12,
     },
     qtyRow: {
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: COLORS.PURPLE_50,
         borderRadius: 8,
-        paddingHorizontal: SW(5),
+        paddingHorizontal: 5,
     },
     qtyBtn: {
-        padding: SW(8),
+        padding: 8,
     },
     qtyBtnText: {
-        fontSize: SF(18),
+        fontSize: 18,
         color: COLORS.PURPLE_600,
         fontFamily: FONT_FAMILY_EXTRABOLD,
     },
     qtyValue: {
-        paddingHorizontal: SW(10),
-        fontSize: SF(14),
+        paddingHorizontal: 10,
+        fontSize: 14,
         fontFamily: FONT_FAMILY_EXTRABOLD,
         color: COLORS.BLACK,
     },
     emptyText: {
         textAlign: 'center',
-        marginTop: SH(40),
+        marginTop: 40,
         color: COLORS.GRAY_400,
         fontFamily: FONT_FAMILY_MEDIUM,
     },
     bottomBar: {
         position: 'absolute',
-        left: SW(16),
-        right: SW(16),
+        left: 16,
+        right: 16,
         zIndex: 100,
     },
     cartGradient: {
@@ -368,28 +458,28 @@ const styles = StyleSheet.create({
     },
     cartQty: {
         color: COLORS.WHITE,
-        fontSize: SF(12),
+        fontSize: 12,
         fontFamily: FONT_FAMILY_MEDIUM,
         opacity: 0.9,
     },
     cartTotal: {
         color: COLORS.WHITE,
-        fontSize: SF(18),
-        fontFamily: FONT_FAMILY_EXTRABOLD,
+        fontSize: 18,
+        fontFamily: FONT_FAMILY_EXTRABOLD
     },
     checkoutBtn: {
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: 'rgba(255,255,255,0.2)',
-        paddingHorizontal: SW(15),
-        paddingVertical: SH(8),
+        paddingHorizontal: 15,
+        paddingVertical: 8,
         borderRadius: 10,
     },
     checkoutBtnText: {
         color: COLORS.WHITE,
         fontFamily: FONT_FAMILY_EXTRABOLD,
-        fontSize: SF(14),
-        marginRight: SW(5),
+        fontSize: 14,
+        marginRight: 5,
     },
 });
 

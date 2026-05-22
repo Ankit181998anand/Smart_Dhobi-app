@@ -16,7 +16,6 @@ import { authService } from '../../../services/authService';
 import Header from '../../../components/Header';
 import GradientButton from '../../../components/GradientButton';
 import InputField from '../../../components/InputField';
-import { SH } from '../../../utils/Dimensions';
 import COLORS from '../../../utils/constant';
 import { SVG_ICON } from '../../../assets/Svg/svgIcon';
 import styles from '../register/styles';
@@ -100,7 +99,7 @@ const VerifyOTPScreen = ({ navigation, route }: VerifyOTPScreenProps) => {
                 >
                     <ScrollView
                         style={{ flex: 1 }}
-                        contentContainerStyle={{ paddingBottom: SH(50), paddingTop: SH(20) }}
+                        contentContainerStyle={{ paddingBottom: 50, paddingTop: 20 }}
                     >
                         <View style={styles.inputContainer}>
                             <InputField
@@ -112,7 +111,7 @@ const VerifyOTPScreen = ({ navigation, route }: VerifyOTPScreenProps) => {
                                 iconSource={SVG_ICON.lock_Icon(COLORS.DarkGray)}
                             />
 
-                            <View style={{ flexDirection: 'row', justifyContent: 'center', marginVertical: SH(20) }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'center', marginVertical: 20 }}>
                                 <Text style={styles.loginText}>Didn't receive code? </Text>
                                 <TouchableOpacity onPress={handleResend} disabled={timer > 0}>
                                     <Text style={[styles.loginLink, { color: timer > 0 ? COLORS.GRAY_400 : COLORS.PURPLE_600 }]}>

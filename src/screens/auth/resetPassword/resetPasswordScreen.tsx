@@ -14,7 +14,6 @@ import { authService } from '../../../services/authService';
 import Header from '../../../components/Header';
 import GradientButton from '../../../components/GradientButton';
 import InputField from '../../../components/InputField';
-import { SH } from '../../../utils/Dimensions';
 import COLORS from '../../../utils/constant';
 import { SVG_ICON } from '../../../assets/Svg/svgIcon';
 import styles from '../register/styles';
@@ -78,7 +77,7 @@ const ResetPasswordScreen = ({ navigation, route }: ResetPasswordScreenProps) =>
                 >
                     <ScrollView
                         style={{ flex: 1 }}
-                        contentContainerStyle={{ paddingBottom: SH(50), paddingTop: SH(20) }}
+                        contentContainerStyle={{ paddingBottom: 50, paddingTop: 20 }}
                     >
                         <View style={styles.inputContainer}>
                             <InputField
@@ -99,7 +98,7 @@ const ResetPasswordScreen = ({ navigation, route }: ResetPasswordScreenProps) =>
                                 iconSource={SVG_ICON.lock_Icon(COLORS.DarkGray)}
                             />
 
-                            <View style={{ height: SH(40) }} />
+                            <View style={{ height: 40 }} />
 
                             <GradientButton
                                 title="Reset Password"

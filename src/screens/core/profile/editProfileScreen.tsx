@@ -14,9 +14,9 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../navigations/types';
 import COLORS, { FONT_FAMILY_EXTRABOLD, FONT_FAMILY_MEDIUM, FONT_FAMILY_SEMIBOLD } from '../../../utils/constant';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SF, SH, SW } from '../../../utils/Dimensions';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../redux/store';
+import { updateUser } from '../../../redux/slices/authSlice';
 import { userService } from '../../../services/userService';
 import InputField from '../../../components/InputField';
 import { SvgXml } from 'react-native-svg';
@@ -28,6 +28,7 @@ import { showMessage } from 'react-native-flash-message';
 const EditProfileScreen = () => {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     const insets = useSafeAreaInsets();
+    const dispatch = useDispatch();
     const { user } = useSelector((state: RootState) => state.auth);
 
     const [isLoading, setIsLoading] = useState(false);
@@ -47,14 +48,17 @@ const EditProfileScreen = () => {
 
         try {
             setIsLoading(true);
-            await userService.updateProfile({
+            const response = await userService.updateProfile({
                 name,
                 mobile,
                 serviceAreas: location
             });
-            // Note: In a real app, we would update the Redux state here.
-            // Since we don't have a 'setUser' action in authSlice yet, 
-            // we'll just show success and go back.
+            
+            // Update Redux state
+            if (response && response.user) {
+                dispatch(updateUser(response.user));
+            }
+
             showMessage({
                 message: "Success",
                 description: "Profile updated successfully!",
@@ -83,12 +87,12 @@ const EditProfileScreen = () => {
                 onLeftPress={() => navigation.goBack()}
             />
 
-            <ScrollView contentContainerStyle={{ padding: SW(20) }}>
+            <ScrollView contentContainerStyle={{ padding: 20 }}>
                 <View style={styles.avatarSection}>
                     <View style={styles.avatarLarge}>
                         <Text style={styles.avatarTextLarge}>{name.charAt(0).toUpperCase()}</Text>
                         <TouchableOpacity style={styles.editBadge}>
-                            <SvgXml xml={SVG_ICON.Edit_Icon(COLORS.WHITE)} width={SW(12)} height={SH(12)} />
+                            <SvgXml xml={SVG_ICON.Edit_Icon(COLORS.WHITE)} width={12} height={12} />
                         </TouchableOpacity>
                     </View>
                     <Text style={styles.infoText}>Update your personal and business details</Text>
@@ -130,7 +134,7 @@ const EditProfileScreen = () => {
                 </View>
             </ScrollView>
 
-            <View style={[styles.footer, { paddingBottom: insets.bottom + SH(10) }]}>
+            <View style={[styles.footer, { paddingBottom: insets.bottom + 10 }]}>
                 <TouchableOpacity onPress={handleSave} disabled={isLoading}>
                     <LinearGradient
                         colors={['#4F46E5', '#7C3AED']}
@@ -155,11 +159,11 @@ const styles = StyleSheet.create({
     },
     avatarSection: {
         alignItems: 'center',
-        marginVertical: SH(20),
+        marginVertical: 20,
     },
     avatarLarge: {
-        width: SW(100),
-        height: SH(100),
+        width: 100,
+        height: 100,
         borderRadius: 50,
         backgroundColor: COLORS.PURPLE_50,
         justifyContent: 'center',
@@ -168,7 +172,7 @@ const styles = StyleSheet.create({
         borderColor: COLORS.PURPLE_100,
     },
     avatarTextLarge: {
-        fontSize: SF(40),
+        fontSize: 40,
         fontFamily: FONT_FAMILY_EXTRABOLD,
         color: COLORS.PURPLE_600,
     },
@@ -183,28 +187,28 @@ const styles = StyleSheet.create({
         borderColor: COLORS.WHITE,
     },
     infoText: {
-        marginTop: SH(12),
-        fontSize: SF(13),
+        marginTop: 12,
+        fontSize: 13,
         color: COLORS.GRAY_400,
         fontFamily: FONT_FAMILY_MEDIUM,
     },
     form: {
-        marginTop: SH(10),
+        marginTop: 10,
     },
     inputGroup: {
-        marginBottom: SH(20),
+        marginBottom: 20,
     },
     label: {
-        fontSize: SF(14),
+        fontSize: 14,
         fontFamily: FONT_FAMILY_SEMIBOLD,
         color: COLORS.GRAY_600,
-        marginBottom: SH(8),
+        marginBottom: 8,
     },
     input: {
         backgroundColor: COLORS.GRAY_50,
         borderRadius: 12,
         padding: 15,
-        fontSize: SF(15),
+        fontSize: 15,
         fontFamily: FONT_FAMILY_MEDIUM,
         borderWidth: 1,
         borderColor: COLORS.GRAY_100,
@@ -214,16 +218,16 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.GRAY_50,
     },
     footer: {
-        padding: SW(20),
+        padding: 20,
     },
     saveBtn: {
-        paddingVertical: SH(16),
+        paddingVertical: 16,
         borderRadius: 15,
         alignItems: 'center',
     },
     saveBtnText: {
         color: COLORS.WHITE,
-        fontSize: SF(16),
+        fontSize: 16,
         fontFamily: FONT_FAMILY_EXTRABOLD,
     },
 });

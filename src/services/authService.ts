@@ -1,6 +1,11 @@
 import { User } from '../types';
 import apiClient from './apiClient';
 
+export interface RegisterResponse {
+  message: string;
+  userId: string;
+}
+
 export interface AuthResponse {
   token: string;
   user: User;
@@ -8,7 +13,7 @@ export interface AuthResponse {
 }
 
 export const authService = {
-  register: async (payload: any): Promise<AuthResponse> => {
+  register: async (payload: any): Promise<RegisterResponse> => {
     const response = await apiClient.post('/auth/register', payload);
     return response.data;
   },

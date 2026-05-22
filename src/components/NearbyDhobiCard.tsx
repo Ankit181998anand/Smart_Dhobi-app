@@ -6,7 +6,6 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { SH, SW, SF } from '../utils/Dimensions';
 import COLORS, { FONT_FAMILY_MEDIUM, FONT_FAMILY_SEMIBOLD } from '../utils/constant';
 import { SvgXml } from 'react-native-svg';
 import { SVG_ICON } from '../assets/Svg/svgIcon';
@@ -38,7 +37,7 @@ const NearbyDhobiCard: React.FC<Props> = ({
                     {title.split(' ').slice(1).join(' ')}
                 </Text>
                 <View style={styles.ratingContainer}>
-                    <SvgXml xml={SVG_ICON.Star_Icon(COLORS.BLACK)} width={SW(18)} height={SH(18)}
+                    <SvgXml xml={SVG_ICON.Star_Icon(COLORS.BLACK)} width={18} height={18}
                         style={styles.starIcon}
                     />
 
@@ -46,23 +45,23 @@ const NearbyDhobiCard: React.FC<Props> = ({
                 </View>
             </View>
 
-            <View style={[styles.row, { marginTop: SH(10) }]}>
+            <View style={[styles.row, { marginTop: 10 }]}>
                 <View style={styles.infoRow}>
 
-                    <SvgXml xml={SVG_ICON.Location_Icon(COLORS.RED_600)} width={SW(18)} height={SH(18)}
+                    <SvgXml xml={SVG_ICON.Location_Icon(COLORS.RED_600)} width={18} height={18}
                         style={styles.infoIcon}
                     />
                     <Text style={styles.infoText}>{distance}</Text>
                 </View>
                 <View style={styles.infoRow}>
-                    <SvgXml xml={SVG_ICON.clock_Icon(COLORS.GREEN_700)} width={SW(18)} height={SH(18)}
+                    <SvgXml xml={SVG_ICON.clock_Icon(COLORS.GREEN_700)} width={18} height={18}
                         style={styles.infoIcon}
                     />
                     <Text style={styles.infoText}>{duration}</Text>
                 </View>
             </View>
 
-            <View style={[styles.row, { marginTop: SH(14) }]}>
+            <View style={[styles.row, { marginTop: 14 }]}>
                 <TouchableOpacity onPress={onBookNow} activeOpacity={0.8} style={styles.bookBtnWrapper}>
                     <LinearGradient
                         colors={['#8B5CF6', '#EC4899']}
@@ -72,7 +71,7 @@ const NearbyDhobiCard: React.FC<Props> = ({
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={onCall} style={styles.callBtn}>
-                     <SvgXml xml={SVG_ICON.Call_Icon(COLORS.BLACK)} width={SW(18)} height={SH(18)}
+                     <SvgXml xml={SVG_ICON.Call_Icon(COLORS.BLACK)} width={18} height={18}
                     />
                 </TouchableOpacity>
             </View>
@@ -86,11 +85,11 @@ export default NearbyDhobiCard;
 const styles = StyleSheet.create({
     card: {
         backgroundColor: '#FAFAFF',
-        borderRadius: SW(14),
-        padding: SH(16),
+        borderRadius: 14,
+        padding: 16,
         borderWidth: 1,
         borderColor: '#F0EFFF',
-        marginBottom: SH(16),
+        marginBottom: 16,
         width: '100%',
     },
     row: {
@@ -103,12 +102,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     title: {
-        fontSize: SF(15),
+        fontSize: 15,
         color: '#111827',
         fontFamily: FONT_FAMILY_SEMIBOLD,
     },
     titleBold: {
-        fontSize: SF(15),
+        fontSize: 15,
         color: '#111827',
         fontFamily: FONT_FAMILY_SEMIBOLD,
     },
@@ -116,56 +115,56 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#FEF3C7',
-        borderRadius: SW(20),
-        paddingHorizontal: SW(8),
-        paddingVertical: SH(4),
+        borderRadius: 20,
+        paddingHorizontal: 8,
+        paddingVertical: 4,
     },
     starIcon: {
-        marginRight: SW(4),
-        bottom: SH(1)
+        marginRight: 4,
+        bottom: 1
     },
     ratingText: {
-        fontSize: SF(12),
+        fontSize: 12,
         color: '#78350F',
         fontFamily: FONT_FAMILY_SEMIBOLD
     },
     infoRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginRight: SW(14),
+        marginRight: 14,
     },
     infoIcon: {
-        marginRight: SW(4),
+        marginRight: 4,
     },
     infoText: {
-        fontSize: SF(13),
+        fontSize: 13,
         color: '#374151',
         fontFamily: FONT_FAMILY_MEDIUM,
     },
     bookBtnWrapper: {
         flex: 1,
-        marginRight: SW(12),
+        marginRight: 12,
     },
     bookBtn: {
-        paddingVertical: SH(8),
-        borderRadius: SW(10),
+        paddingVertical: 8,
+        borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
     },
     bookBtnText: {
         color: '#fff',
-        fontSize: SF(14),
+        fontSize: 14,
         fontFamily: FONT_FAMILY_SEMIBOLD,
     },
     callBtn: {
-        padding: SW(10),
-        borderRadius: SW(10),
+        padding: 10,
+        borderRadius: 10,
         borderWidth: 1,
         borderColor: '#E5E7EB',
         backgroundColor: '#fff',
     },
     callIcon: {
-        width: SW(18),
-        height: SW(18),
+        width: 18,
+        height: 18,
     },
 });

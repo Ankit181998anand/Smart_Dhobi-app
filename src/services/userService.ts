@@ -29,4 +29,26 @@ export const userService = {
     const response = await apiClient.delete('/users/account');
     return response.data;
   },
+  
+  getAddresses: async (): Promise<{ addresses: any[] }> => {
+    // Note: Assuming endpoint /users/addresses exists based on requirement
+    const response = await apiClient.get('/users/addresses');
+    return response.data;
+  },
+
+  addAddress: async (payload: any): Promise<{ address: any }> => {
+    const response = await apiClient.post('/users/addresses', payload);
+    return response.data;
+  },
+
+  updateAddress: async (id: string, payload: any): Promise<{ address: any }> => {
+    const response = await apiClient.patch(`/users/addresses/${id}`, payload);
+    return response.data;
+  },
+
+  deleteAddress: async (id: string): Promise<{ message: string }> => {
+    const response = await apiClient.delete(`/users/addresses/${id}`);
+    return response.data;
+  },
 };
+

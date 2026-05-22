@@ -17,12 +17,16 @@ export const registrationSchema = Yup.object({
     .required('Address is required'),
 
   password: Yup.string()
-    .min(6, 'Minimum 6 characters')
+    .min(5, 'Minimum 5 characters')
     .required('Password is required'),
 
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), ''], 'Passwords must match')
     .required('Confirm password is required'),
+  
+  coordinates: Yup.array()
+    .of(Yup.number())
+    .length(2, 'Invalid coordinates'),
 });
 
 export const loginSchema = Yup.object().shape({
@@ -41,7 +45,7 @@ export const dhobiRegistrationSchema = (step: number) => {
           .matches(/^[0-9]{10}$/, 'Mobile must be 10 digits')
           .required('Mobile is required'),
         password: Yup.string()
-          .min(6, 'Minimum 6 characters')
+          .min(5, 'Minimum 5 characters')
           .required('Password is required'),
         address: Yup.string().required('Address is required'),
       });

@@ -20,7 +20,6 @@ import { loginSchema } from '../../../utils/validationSchema';
 import InputField from '../../../components/InputField';
 import GradientButton from '../../../components/GradientButton';
 import COLORS from '../../../utils/constant';
-import { SH } from '../../../utils/Dimensions';
 import { useIsFocused } from '@react-navigation/native';
 import { SVG_ICON } from '../../../assets/Svg/svgIcon';
 import { authService } from '../../../services/authService';
@@ -83,7 +82,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
         } catch (error: any) {
             console.error("Login error:", error);
             setIsLoading(false);
-            const errorMsg = error.response?.data?.message;
+            const errorMsg = error.response?.data?.message || error.message || "Login Failed";
             dispatch(loginFailure(errorMsg));
             Alert.alert("Login Failed", errorMsg);
         }
@@ -106,7 +105,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
                 >
                     <ScrollView
                         style={{ flex: 1 }}
-                        contentContainerStyle={{ paddingBottom: SH(50) }}
+                        contentContainerStyle={{ paddingBottom: 50 }}
                         keyboardShouldPersistTaps="handled"
                         showsVerticalScrollIndicator={false}
                     >
@@ -154,9 +153,9 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
 
                                     <GradientButton
                                         title="Sign in to Dashboard"
-                                        onPress={handleSubmit as any}
+                                        onPress={() => handleSubmit()}
                                         type="filled"
-                                        containerStyle={{ marginBottom: SH(10) }}
+                                        containerStyle={{ marginBottom: 10 }}
                                         rightIcon={SVG_ICON.arrow_Right(COLORS.WHITE)}
                                         loading={isLoading}
                                     />

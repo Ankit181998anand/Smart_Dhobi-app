@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 import COLORS, { FONT_FAMILY_EXTRABOLD, FONT_FAMILY_MEDIUM } from "../../utils/constant";
-import { SF, SH, SW } from "../../utils/Dimensions";
 
 const styles = StyleSheet.create({
     container: {
@@ -9,47 +8,47 @@ const styles = StyleSheet.create({
     },
     subContainer: {
         flex: 1,
-        paddingHorizontal: SW(30),
+        paddingHorizontal: 30,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingBottom: SH(40),
+        paddingBottom: 40,
     },
     logo: {
-        width: SW(220),
-        height: SH(220),
-        marginBottom: SH(20),
+        width: 220,
+        height: 220,
+        marginBottom: 20,
     },
     title: {
-        fontSize: SF(30),
+        fontSize: 30,
         fontFamily: FONT_FAMILY_EXTRABOLD,
         color: COLORS.BLACK,
         textAlign: 'center',
     },
     subTitle: {
-        fontSize: SF(16),
+        fontSize: 16,
         fontFamily: FONT_FAMILY_MEDIUM,
         color: COLORS.GRAY_500,
         textAlign: 'center',
-        marginTop: SH(8),
-        lineHeight: SH(24),
+        marginTop: 8,
+        lineHeight: 24,
     },
     buttonContainer: {
         width: '100%',
-        marginTop: SH(50),
+        marginTop: 50,
     },
     loginWrapper: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: SH(30),
+        marginTop: 30,
     },
     loginText: {
-        fontSize: SF(15),
+        fontSize: 15,
         color: COLORS.GRAY_400,
         fontFamily: FONT_FAMILY_MEDIUM,
     },
     loginLink: {
-        fontSize: SF(15),
+        fontSize: 15,
         color: COLORS.PURPLE_600,
         fontFamily: FONT_FAMILY_EXTRABOLD,
     },

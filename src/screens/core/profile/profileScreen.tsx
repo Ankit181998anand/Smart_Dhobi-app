@@ -13,9 +13,8 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../redux/store';
-import { logout } from '../../../redux/slices/authSlice';
+import { logout, updateUser } from '../../../redux/slices/authSlice';
 import COLORS, { FONT_FAMILY_EXTRABOLD, FONT_FAMILY_SEMIBOLD } from '../../../utils/constant';
-import { SF, SH, SW } from '../../../utils/Dimensions';
 import { SvgXml } from 'react-native-svg';
 import { SVG_ICON } from '../../../assets/Svg/svgIcon';
 import LinearGradient from 'react-native-linear-gradient';
@@ -41,17 +40,22 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
             if (type === 'dhobi') {
                 const providerId = user?.mainUserId || user?._id || '';
                 const response = await providerService.getProfile(providerId);
-                setProfileData(response.provider);
+                const providerData = (response.data || response.provider || response) as any;
+                setProfileData(providerData);
             } else {
                 const response = await userService.getProfile();
                 setProfileData(response.user);
+                // Sync Redux
+                if (response.user) {
+                    dispatch(updateUser(response.user));
+                }
             }
         } catch (error) {
             console.error("Profile fetch error:", error);
         } finally {
             setIsLoading(false);
         }
-    }, [type, user?._id, user?.mainUserId]);
+    }, [type, user?._id, user?.mainUserId, dispatch]);
 
     useEffect(() => {
         if (isFocused) {
@@ -93,11 +97,11 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
         <TouchableOpacity style={styles.profileItem} onPress={onPress}>
             <View style={styles.itemLeft}>
                 <View style={[styles.iconBox, { backgroundColor: COLORS.GRAY_50 }]}>
-                    <SvgXml xml={icon} width={SW(20)} height={SH(20)} />
+                    <SvgXml xml={icon} width={20} height={20} />
                 </View>
                 <Text style={[styles.itemTitle, { color }]}>{title}</Text>
             </View>
-            <SvgXml xml={SVG_ICON.arrow_Right(COLORS.GRAY_400)} width={SW(16)} height={SH(16)} />
+            <SvgXml xml={SVG_ICON.arrow_Right(COLORS.GRAY_400)} width={16} height={16} />
         </TouchableOpacity>
     );
 
@@ -105,12 +109,16 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
 
-            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: SH(40) }}>
+            <ScrollView
+                style={styles.scrollView}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ paddingBottom: 40 }}
+            >
                 {/* Modern Fluid Header */}
                 <View style={styles.headerWrapper}>
                     <LinearGradient
                         colors={[COLORS.PURPLE_600, COLORS.PINK_600]}
-                        style={[styles.headerBackground, { paddingTop: insets.top + SH(10) }]}
+                        style={[styles.headerBackground, { paddingTop: insets.top + 10 }]}
                         start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
                     >
                         <Text style={styles.headerTitle}>My Profile</Text>
@@ -126,7 +134,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
                 {/* User Info Section */}
                 <View style={styles.userInfoSection}>
                     {isLoading && !profileData ? (
-                        <ActivityIndicator size="small" color={COLORS.PURPLE_600} style={{ marginBottom: SH(10) }} />
+                        <ActivityIndicator size="small" color={COLORS.PURPLE_600} style={{ marginBottom: 10 }} />
                     ) : (
                         <>
                             <Text style={styles.userName}>{profileData?.name || user?.name}</Text>
@@ -151,11 +159,11 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
                         title="Edit Profile"
                         onPress={() => (navigation as any).navigate('EditProfile')}
                     />
-                    <ProfileItem
+                    {/* <ProfileItem
                         icon={SVG_ICON.Location_Icon(COLORS.PURPLE_600)}
                         title="My Addresses"
                         onPress={() => (navigation as any).navigate('AddressList', { fromCheckout: false })}
-                    />
+                    /> */}
                     <ProfileItem
                         icon={SVG_ICON.secure_Icon(COLORS.PURPLE_600)}
                         title="Change Password"
@@ -171,11 +179,11 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
                             title="Service Management"
                             onPress={() => (navigation as any).navigate('ManageServices')}
                         />
-                        <ProfileItem
+                        {/* <ProfileItem
                             icon={SVG_ICON.Star_Icon(COLORS.BLUE_600)}
                             title="Earnings & Analytics"
                             onPress={() => { }}
-                        />
+                        /> */}
                     </View>
                 )}
 
@@ -184,24 +192,38 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation, route }) => {
                     <ProfileItem
                         icon={SVG_ICON.mail_Icon(COLORS.GREEN_600)}
                         title="Contact Us"
-                        onPress={() => { }}
+                        onPress={() => (navigation as any).navigate('ContactUs')}
                     />
                     <ProfileItem
                         icon={SVG_ICON.Check_Circle(COLORS.GREEN_600)}
                         title="Terms & Conditions"
-                        onPress={() => { }}
+                        onPress={() => (navigation as any).navigate('TermsOfService')}
+                    />
+                    <ProfileItem
+                        icon={SVG_ICON.secure_Icon(COLORS.GREEN_600)}
+                        title="Privacy Policy"
+                        onPress={() => (navigation as any).navigate('PrivacyPolicy')}
                     />
                 </View>
 
-                <View style={[styles.menuSection, { marginTop: SH(30) }]}>
-                    <ProfileItem
-                        icon={SVG_ICON.Check_Circle(COLORS.RED)}
-                        title="Logout"
-                        onPress={handleLogout}
-                        color={COLORS.RED}
-                    />
-                </View>
             </ScrollView>
+
+            <View style={[styles.logoutContainer, { paddingBottom: insets.bottom + 20 }]}>
+                <TouchableOpacity
+                    style={styles.logoutBtn}
+                    onPress={handleLogout}
+                    activeOpacity={0.8}
+                >
+                    <LinearGradient
+                        colors={[COLORS.PURPLE_600, COLORS.PINK_600]}
+                        style={styles.logoutGradient}
+                        start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
+                    >
+                        <SvgXml xml={SVG_ICON.Check_Circle(COLORS.WHITE)} width={20} height={20} />
+                        <Text style={styles.logoutBtnText}>Logout</Text>
+                    </LinearGradient>
+                </TouchableOpacity>
+            </View>
         </SafeAreaView>
     );
 };
@@ -211,24 +233,27 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: COLORS.WHITE,
     },
+    scrollView: {
+        flex: 1,
+    },
     headerWrapper: {
         width: '100%',
         alignItems: 'center',
     },
     headerBackground: {
         width: '100%',
-        height: SH(180),
+        height: 180,
         alignItems: 'center',
         borderBottomLeftRadius: 450,
         borderBottomRightRadius: 10,
     },
     headerTitle: {
-        fontSize: SF(22),
+        fontSize: 22,
         fontFamily: FONT_FAMILY_EXTRABOLD,
         color: COLORS.WHITE,
     },
     avatarContainer: {
-        marginTop: -SH(40),
+        marginTop: -40,
         padding: 5,
         backgroundColor: COLORS.WHITE,
         borderRadius: 55,
@@ -239,62 +264,62 @@ const styles = StyleSheet.create({
         shadowRadius: 10,
     },
     avatarLarge: {
-        width: SW(50),
-        height: SH(50),
+        width: 50,
+        height: 50,
         borderRadius: 50,
         backgroundColor: COLORS.PURPLE_50,
         justifyContent: 'center',
         alignItems: 'center',
     },
     avatarTextLarge: {
-        fontSize: SF(40),
+        fontSize: 40,
         fontFamily: FONT_FAMILY_EXTRABOLD,
         color: COLORS.PURPLE_600,
     },
     userInfoSection: {
         alignItems: 'center',
-        marginTop: SH(15),
-        marginBottom: SH(20),
+        marginTop: 15,
+        marginBottom: 20,
     },
     userName: {
-        fontSize: SF(24),
+        fontSize: 24,
         fontFamily: FONT_FAMILY_EXTRABOLD,
         color: COLORS.BLACK,
     },
     userEmail: {
-        fontSize: SF(16),
+        fontSize: 16,
         color: COLORS.GRAY_500,
-        marginTop: SH(4),
+        marginTop: 4,
     },
     roleBadge: {
-        marginTop: SH(12),
+        marginTop: 12,
     },
     roleBadgeGradient: {
-        paddingHorizontal: SW(16),
-        paddingVertical: SH(6),
+        paddingHorizontal: 16,
+        paddingVertical: 6,
         borderRadius: 20,
     },
     roleText: {
         color: COLORS.WHITE,
-        fontSize: SF(12),
+        fontSize: 12,
         fontFamily: FONT_FAMILY_EXTRABOLD,
     },
     menuSection: {
-        paddingHorizontal: SW(16),
-        marginTop: SH(20),
+        paddingHorizontal: 16,
+        marginTop: 20,
     },
     sectionTitle: {
-        fontSize: SF(14),
+        fontSize: 14,
         fontFamily: FONT_FAMILY_EXTRABOLD,
         color: COLORS.GRAY_400,
-        marginBottom: SH(10),
-        marginLeft: SW(4),
+        marginBottom: 10,
+        marginLeft: 4,
     },
     profileItem: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingVertical: SH(5),
+        paddingVertical: 5,
         borderBottomWidth: 1,
         borderBottomColor: COLORS.GRAY_50,
     },
@@ -303,16 +328,44 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     iconBox: {
-        width: SW(40),
-        height: SH(40),
+        width: 40,
+        height: 40,
         borderRadius: 12,
         justifyContent: 'center',
         alignItems: 'center',
-        marginRight: SW(15),
+        marginRight: 15,
     },
     itemTitle: {
-        fontSize: SF(15),
+        fontSize: 15,
         fontFamily: FONT_FAMILY_SEMIBOLD,
+    },
+    logoutContainer: {
+        paddingHorizontal: 20,
+        backgroundColor: COLORS.WHITE,
+        borderTopWidth: 1,
+        borderTopColor: COLORS.GRAY_50,
+        paddingTop: 15,
+    },
+    logoutBtn: {
+        borderRadius: 15,
+        overflow: 'hidden',
+        elevation: 4,
+        shadowColor: COLORS.RED,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 8,
+    },
+    logoutGradient: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 15,
+    },
+    logoutBtnText: {
+        color: COLORS.WHITE,
+        fontSize: 16,
+        fontFamily: FONT_FAMILY_EXTRABOLD,
+        marginLeft: 10,
     },
 });
 

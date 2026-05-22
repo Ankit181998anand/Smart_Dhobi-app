@@ -1,10 +1,10 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TextStyle, View, TouchableOpacity, ViewStyle } from 'react-native';
-import { SF, SH, SW } from '../utils/Dimensions';
 import COLORS, { FONT_FAMILY_EXTRABOLD, FONT_FAMILY_SEMIBOLD } from '../utils/constant';
 import LinearGradient from 'react-native-linear-gradient';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { SvgXml } from 'react-native-svg';
+import { SVG_ICON } from '../assets/Svg/svgIcon';
 
 interface HeaderProps {
   title: string;
@@ -41,7 +41,7 @@ const Header: React.FC<HeaderProps> = ({
     return (
       <TouchableOpacity onPress={onPress} activeOpacity={0.7} style={styles.iconContainer}>
         {isSvg ? (
-          <SvgXml xml={source} width={SW(24)} height={SW(24)} />
+          <SvgXml xml={source} width={24} height={24} />
         ) : (
           <Image source={source} style={styles.iconStyle} />
         )}
@@ -69,7 +69,7 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <View style={[styles.container, viewStyle]}>
       <View style={styles.row}>
-        {isLeftIcon ? renderIcon(leftIconSource, onLeftPress) : <View style={styles.placeholder} />}
+        {isLeftIcon ? renderIcon(leftIconSource || SVG_ICON.arrow_back(COLORS.BLACK), onLeftPress) : <View style={styles.placeholder} />}
         <View style={styles.titleContainer}>
           {renderTitle()}
         </View>
@@ -86,9 +86,9 @@ export default Header;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: SW(16),
+    paddingHorizontal: 16,
     backgroundColor: COLORS.WHITE,
-    paddingVertical: SH(10),
+    paddingVertical: 10,
   },
   row: {
     flexDirection: 'row',
@@ -100,30 +100,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: SF(18),
+    fontSize: 18,
     fontFamily: FONT_FAMILY_EXTRABOLD,
     color: COLORS.BLACK,
   },
   subTitle: {
-    fontSize: SF(14),
+    fontSize: 14,
     fontFamily: FONT_FAMILY_SEMIBOLD,
     color: COLORS.DarkGray,
-    marginTop: SH(2),
+    marginTop: 2,
     textAlign: 'center'
   },
   iconContainer: {
-    width: SW(40),
-    height: SW(40),
+    width: 40,
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
   },
   iconStyle: {
-    width: SW(20),
-    height: SW(20),
+    width: 20,
+    height: 20,
     resizeMode: 'contain',
     tintColor: '#8B5CF6'
   },
   placeholder: {
-    width: SW(40),
+    width: 40,
   }
 });

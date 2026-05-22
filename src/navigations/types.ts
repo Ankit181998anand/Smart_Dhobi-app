@@ -1,6 +1,7 @@
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { RouteProp, NavigatorScreenParams, CompositeNavigationProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { OrderItem } from "../types";
 
 export type RootStackParamList = {
     Splash: undefined;
@@ -14,11 +15,14 @@ export type RootStackParamList = {
     MainTabs: NavigatorScreenParams<MainTabParamList> & { type: 'dhobi' | 'customer' };
     OrderDetails: { orderId: string };
     ProviderDetail: { providerId: string };
-    Checkout: { providerId: string; items: any[]; selectedAddress?: string };
+    Checkout: { providerId: string; items: OrderItem[]; selectedAddress?: string };
     ManageServices: undefined;
     EditProfile: undefined;
     AddressList: { fromCheckout?: boolean };
     ChangePassword: undefined;
+    PrivacyPolicy: undefined;
+    TermsOfService: undefined;
+    ContactUs: undefined;
 };
 
 export type MainTabParamList = {

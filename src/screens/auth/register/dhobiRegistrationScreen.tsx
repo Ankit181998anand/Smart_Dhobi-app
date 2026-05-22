@@ -10,7 +10,6 @@ import { dhobiRegistrationSchema } from "../../../utils/validationSchema";
 import InputField from "../../../components/InputField";
 import GradientButton from "../../../components/GradientButton";
 import COLORS, { FONT_FAMILY_SEMIBOLD } from "../../../utils/constant";
-import { SH, SW } from "../../../utils/Dimensions";
 import { SvgXml } from "react-native-svg";
 import { SVG_ICON } from "../../../assets/Svg/svgIcon";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -40,8 +39,8 @@ type DhobiRegistrationScreenProps = {
 
 interface StepObserverProps {
     step: number;
-    onEnterStep2: (setFieldValue: (field: string, value: any) => void) => void;
-    setFieldValue: (field: string, value: any) => void;
+    onEnterStep2: (setFieldValue: (field: string, value: string | number | null) => void) => void;
+    setFieldValue: (field: string, value: string | number | null) => void;
 }
 
 const StepObserver = ({ step, onEnterStep2, setFieldValue }: StepObserverProps) => {
@@ -112,34 +111,46 @@ const DhobiRegistrationScreen = ({ navigation }: DhobiRegistrationScreenProps) =
                 try {
                     setIsSubmitting(true);
 
+                    const pricing: Record<string, number> = {};
+                    values.services.forEach(s => {
+                        if (s.name) pricing[s.name.toLowerCase()] = parseInt(s.price) || 0;
+                    });
+
                     const payload = {
                         name: values.businessName,
+                        owner: values.ownerName,
                         email: values.email,
                         mobile: values.mobile,
                         password: values.password,
+                        address: values.address,
+                        serviceAreas: values.serviceArea,
                         location: {
                             type: "Point",
                             coordinates: [values.longitude || 86.2029, values.latitude || 22.8046]
                         },
-                        serviceAreas: values.serviceArea,
-                        owner: values.ownerName,
-                        address: values.address,
-                        commissionRate: parseInt(values.commissionRate) || 10
+                        commissionRate: parseInt(values.commissionRate) || 10,
+                        services: values.services.filter(s => s.name && s.price),
+                        pricing: pricing,
+                        profilePicture: "https://example.com/default-profile.png",
+                        joinDate: new Date().toISOString().split('T')[0],
+                        images: [],
+                        earnings: "0"
                     };
 
                     const response = await providerService.create(payload);
-                    console.log("response", response)
+                    console.log("[DHOBI REGISTER] Response:", response);
                     setIsSubmitting(false);
 
-                    Alert.alert('Registration Submitted', 'Your registration has been submitted and is pending approval.', [
+                    Alert.alert('Registration Submitted', response.message || 'Your registration is pending approval.', [
                         {
-                            text: 'Verify OTP',
-                            onPress: () => navigation.navigate('VerifyOTP', { email: values.email, fromRegister: true })
+                            text: 'Go to Login',
+                            onPress: () => navigation.navigate('Login')
                         }
                     ]);
                 } catch (apiErr: any) {
                     setIsSubmitting(false);
-                    Alert.alert('Error', apiErr.response?.data?.message || 'Registration failed');
+                    const errorMessage = apiErr.response?.data?.message || apiErr.message || 'Registration failed';
+                    Alert.alert('Error', errorMessage);
                 }
                 return;
             }
@@ -225,7 +236,7 @@ const DhobiRegistrationScreen = ({ navigation }: DhobiRegistrationScreenProps) =
                 isRightIcon
                 leftIconSource={require('../../../assets/icons/stars_.png')}
                 rightIconSource={require('../../../assets/icons/stars_.png')}
-                textStyle={{ color: '#8f00ff', paddingHorizontal: SW(5) }}
+                textStyle={{ color: '#8f00ff', paddingHorizontal: 5 }}
                 viewStyle={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}
                 isGradientText
             />
@@ -244,7 +255,7 @@ const DhobiRegistrationScreen = ({ navigation }: DhobiRegistrationScreenProps) =
                             >
                                 {step > item ? (
 
-                                    <SvgXml xml={SVG_ICON.Check_Circle(COLORS.WHITE)} width={SW(20)} height={SH(20)} />
+                                    <SvgXml xml={SVG_ICON.Check_Circle(COLORS.WHITE)} width={20} height={20} />
 
                                 ) : (
                                     <Text
@@ -289,7 +300,7 @@ const DhobiRegistrationScreen = ({ navigation }: DhobiRegistrationScreenProps) =
             >
                 <ScrollView
                     style={{ flex: 1 }}
-                    contentContainerStyle={{ paddingBottom: SH(50) }}
+                    contentContainerStyle={{ paddingBottom: 50 }}
                     keyboardShouldPersistTaps="handled"
                     showsVerticalScrollIndicator={false}
                 >
@@ -409,7 +420,7 @@ const DhobiRegistrationScreen = ({ navigation }: DhobiRegistrationScreenProps) =
                                             disabled={locLoading}
                                         >
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                <SvgXml xml={SVG_ICON.Location_Icon(COLORS.PURPLE_600)} width={SW(18)} height={SH(18)} style={{ marginRight: SW(8) }} />
+                                                <SvgXml xml={SVG_ICON.Location_Icon(COLORS.PURPLE_600)} width={18} height={18} style={{ marginRight: 8 }} />
                                                 <Text style={[styles.addBtnText, { color: COLORS.PURPLE_600, fontFamily: FONT_FAMILY_SEMIBOLD }]}>
                                                     {locLoading ? 'Detecting Location...' : 'Use My Current Location'}
                                                 </Text>
@@ -421,9 +432,9 @@ const DhobiRegistrationScreen = ({ navigation }: DhobiRegistrationScreenProps) =
 
                                         <View style={styles.privacyBox}>
 
-                                            <SvgXml xml={SVG_ICON.secure_Icon('#004EEB')} width={SW(20)} height={SH(20)} style={{
-                                                marginRight: SW(4),
-                                                marginTop: SH(2),
+                                            <SvgXml xml={SVG_ICON.secure_Icon('#004EEB')} width={20} height={20} style={{
+                                                marginRight: 4,
+                                                marginTop: 2,
                                             }} />
 
                                             <View style={styles.privacyTextWrapper}>
@@ -464,7 +475,7 @@ const DhobiRegistrationScreen = ({ navigation }: DhobiRegistrationScreenProps) =
                                                         <Text style={styles.error}>
                                                             {typeof errors.services === 'string'
                                                                 ? errors.services
-                                                                : (errors.services[0] as any)?.name}
+                                                                : Array.isArray(errors.services) && (errors.services[index] as FormikErrors<Service>)?.name}
                                                         </Text>
                                                     )}
                                                 </View>
@@ -487,7 +498,7 @@ const DhobiRegistrationScreen = ({ navigation }: DhobiRegistrationScreenProps) =
                                                         <Text style={styles.error}>
                                                             {typeof errors.services === 'string'
                                                                 ? errors.services
-                                                                : (errors.services[0] as any)?.price}
+                                                                : Array.isArray(errors.services) && (errors.services[index] as FormikErrors<Service>)?.price}
                                                         </Text>
                                                     )}
                                                 </View>
@@ -540,9 +551,9 @@ const DhobiRegistrationScreen = ({ navigation }: DhobiRegistrationScreenProps) =
 
                                         <View style={[styles.privacyBox, { backgroundColor: '#fffbe9' }]}>
 
-                                            <SvgXml xml={SVG_ICON.Star_Icon('#004EEB')} width={SW(22)} height={SH(22)} style={{
-                                                marginRight: SW(4),
-                                                marginTop: SH(0),
+                                            <SvgXml xml={SVG_ICON.Star_Icon('#004EEB')} width={22} height={22} style={{
+                                                marginRight: 4,
+                                                marginTop: 0,
                                             }} />
                                             <View style={styles.privacyTextWrapper}>
                                                 <Text style={styles.privacyTitle}>Commission Information</Text>
@@ -644,7 +655,7 @@ const DhobiRegistrationScreen = ({ navigation }: DhobiRegistrationScreenProps) =
                                     {step > 1 ? (
                                         <TouchableOpacity onPress={handleBack} style={styles.backBtn}>
 
-                                            <SvgXml xml={SVG_ICON.arrow_back(COLORS.BLACK)} width={SW(20)} height={SH(20)}
+                                            <SvgXml xml={SVG_ICON.arrow_back(COLORS.BLACK)} width={20} height={20}
                                             />
                                             <Text style={styles.backText}> Back</Text>
                                         </TouchableOpacity>
@@ -662,7 +673,7 @@ const DhobiRegistrationScreen = ({ navigation }: DhobiRegistrationScreenProps) =
                                                 <ActivityIndicator color={COLORS.WHITE} />
                                             ) : (
                                                 <>
-                                                    <SvgXml xml={SVG_ICON.secure_Icon(COLORS.WHITE)} width={SW(20)} height={SH(20)} />
+                                                    <SvgXml xml={SVG_ICON.secure_Icon(COLORS.WHITE)} width={20} height={20} />
                                                     <Text style={styles.submitBtnText}>Submit Registration</Text>
                                                 </>
                                             )}

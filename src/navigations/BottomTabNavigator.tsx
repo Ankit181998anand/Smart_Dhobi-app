@@ -2,7 +2,6 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import DashBoardScreen from '../screens/core/dashboard/dashboardScreen';
 import { MainTabParamList, RootStackParamList } from './types';
-import { SF, SH, SW } from '../utils/Dimensions';
 import COLORS, { FONT_FAMILY_SEMIBOLD } from '../utils/constant';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import OrdersScreen from '../screens/core/orders/ordersScreen';
@@ -25,7 +24,7 @@ const BottomTabNavigator = ({ route }: BottomTabNavigatorProps) => {
         headerShown: false,
         tabBarShowLabel: true,
         tabBarLabelStyle: {
-          fontSize: SF(13),
+          fontSize: 13,
           fontFamily: FONT_FAMILY_SEMIBOLD,
         },
         tabBarStyle: {
@@ -33,8 +32,8 @@ const BottomTabNavigator = ({ route }: BottomTabNavigatorProps) => {
           borderTopWidth: 1,
           borderTopColor: '#FAF9F6',
           borderLeftColor: COLORS.WHITE,
-          paddingBottom: insets.bottom + SH(5),
-          height: SH(65) + insets.bottom,
+          paddingBottom: insets.bottom + 5,
+          height: 65 + insets.bottom,
           elevation: 10,
           shadowColor: COLORS.BLACK,
           shadowOffset: { width: 0, height: -2 },
@@ -59,7 +58,7 @@ const BottomTabNavigator = ({ route }: BottomTabNavigatorProps) => {
               iconXml = SVG_ICON.home_Icon(color);
           }
 
-          return <SvgXml xml={iconXml} width={SW(24)} height={SH(24)} />;
+          return <SvgXml xml={iconXml} width={24} height={24} />;
         },
       })}
     >
@@ -83,5 +82,3 @@ const BottomTabNavigator = ({ route }: BottomTabNavigatorProps) => {
 };
 
 export default BottomTabNavigator;
-
-

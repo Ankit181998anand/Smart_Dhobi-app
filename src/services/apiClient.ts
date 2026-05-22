@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { BASE_URL } from '../utils/Base_URL';
-import { store } from '../redux/store';
 import { logout } from '../redux/slices/authSlice';
 
 const apiClient = axios.create({
@@ -14,6 +13,7 @@ const apiClient = axios.create({
 // Request Interceptor
 apiClient.interceptors.request.use(
   (config) => {
+    const { store } = require('../redux/store');
     const state = store.getState();
     const token = state.auth.token;
     console.log("token", token);
@@ -43,10 +43,11 @@ apiClient.interceptors.response.use(
   },
   (error) => {
     // API LOGGING
-    console.error(`[API ERROR] ${error.response?.status} ${error.config?.url}`, error.response?.data || error.message);
+    console.error(`[API ERROR] ${error.response?.status} ${error.config?.url}`, JSON.stringify(error.response?.data, null, 2) || error.message);
 
     if (error.response && error.response.status === 401) {
       // Unauthorized, logout user if they were logged in
+      const { store } = require('../redux/store');
       const state = store.getState();
       if (state.auth.isAuthenticated) {
         store.dispatch(logout());

@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native";
-import { SW } from "../../utils/Dimensions";
 import COLORS from "../../utils/constant";
 
 const styles = StyleSheet.create({
@@ -10,7 +9,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.WHITE,
     },
     logo: {
-        width: SW(200),
+        width: 200,
         aspectRatio: 1,
         alignSelf: 'center',
     }

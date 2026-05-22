@@ -128,5 +128,13 @@ export const SVG_ICON = {
   home_Icon: (color = '#1C1B1F') => `
 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="${color}"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>
 `,
-
+  Search_Icon: (color = '#1C1B1F') => `
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="${color}"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
+`,
+  Cancel_Icon: (color = '#1C1B1F') => `
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="${color}"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+`,
+  Bag_Timer: (color = '#1C1B1F') => `
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="${color}"><path d="M240-80q-33 0-56.5-23.5T160-200v-400q0-33 23.5-56.5T240-680h40v-80q0-83 58.5-141.5T520-960q83 0 141.5 58.5T720-760v80h80q33 0 56.5 23.5T880-600v400q0 33-23.5 56.5T800-80H240Zm0-80h560v-400H240v400Zm80-480h400v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Zm280-80h80v-160h160v-80H520v160H360v80h160v160Z"/></svg>
+`,
 };
