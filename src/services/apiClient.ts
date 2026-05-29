@@ -52,6 +52,18 @@ apiClient.interceptors.response.use(
       if (state.auth.isAuthenticated) {
         store.dispatch(logout());
       }
+      
+      try {
+        const { navigationRef } = require('../navigations/AppNavigator');
+        if (navigationRef.isReady()) {
+          navigationRef.reset({
+            index: 0,
+            routes: [{ name: 'ChooseRole' }],
+          });
+        }
+      } catch (navErr) {
+        console.error('[API CLIENT] Error resetting navigation:', navErr);
+      }
     }
     return Promise.reject(error);
   }

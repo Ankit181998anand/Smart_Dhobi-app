@@ -67,12 +67,25 @@ export const dhobiRegistrationSchema = (step: number) => {
             })
           )
           .min(1, 'At least one service is required'),
-
-        commissionRate: Yup.number()
-          .typeError('Commission rate must be a number')
-          .required('Commission rate is required')
-          .min(1, 'Commission rate must be at least 1%')
-          .max(100, 'Commission rate cannot exceed 100%'),
+      });
+    
+    case 4:
+      return Yup.object().shape({
+        accountHolderName: Yup.string().required('Account holder name is required'),
+        bankName: Yup.string().required('Bank name is required'),
+        accountNumber: Yup.string()
+          .matches(/^\d+$/, 'Account number must be digits only')
+          .min(9, 'Must be at least 9 digits')
+          .max(18, 'Cannot exceed 18 digits')
+          .required('Account number is required'),
+        confirmAccountNumber: Yup.string()
+          .oneOf([Yup.ref('accountNumber'), ''], 'Account numbers must match')
+          .required('Confirm account number is required'),
+        ifscCode: Yup.string()
+          .matches(/^[A-Z]{4}0[A-Z0-9]{6}$/, 'Enter a valid 11-character IFSC code (e.g., SBIN0001234)')
+          .required('IFSC code is required'),
+        branchName: Yup.string().required('Branch name is required'),
+        accountType: Yup.string().oneOf(['savings', 'current']).required('Account type is required'),
       });
 
     default:

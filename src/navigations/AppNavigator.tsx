@@ -1,11 +1,13 @@
 
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, createNavigationContainerRef } from '@react-navigation/native';
 import StackNavigator from './StackNavigator';
+
+export const navigationRef = createNavigationContainerRef();
 
 const AppNavigator = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <StackNavigator />
     </NavigationContainer>
   );

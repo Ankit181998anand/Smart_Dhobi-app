@@ -30,7 +30,13 @@ type FormValues = {
     latitude?: number | null;
     longitude?: number | null;
     services: Service[];
-    commissionRate: string;
+    accountHolderName: string;
+    accountNumber: string;
+    confirmAccountNumber: string;
+    ifscCode: string;
+    bankName: string;
+    accountType: string;
+    branchName: string;
 };
 
 type DhobiRegistrationScreenProps = {
@@ -72,7 +78,7 @@ const DhobiRegistrationScreen = ({ navigation }: DhobiRegistrationScreenProps) =
             case 3:
                 return 'Services';
             case 4:
-                return 'Review';
+                return 'Bank Details';
             default:
                 return '';
         }
@@ -93,7 +99,13 @@ const DhobiRegistrationScreen = ({ navigation }: DhobiRegistrationScreenProps) =
         latitude: null,
         longitude: null,
         services: [{ name: '', price: '' }],
-        commissionRate: '',
+        accountHolderName: '',
+        accountNumber: '',
+        confirmAccountNumber: '',
+        ifscCode: '',
+        bankName: '',
+        accountType: 'savings',
+        branchName: '',
     };
 
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -128,13 +140,29 @@ const DhobiRegistrationScreen = ({ navigation }: DhobiRegistrationScreenProps) =
                             type: "Point",
                             coordinates: [values.longitude || 86.2029, values.latitude || 22.8046]
                         },
-                        commissionRate: parseInt(values.commissionRate) || 10,
                         services: values.services.filter(s => s.name && s.price),
                         pricing: pricing,
                         profilePicture: "https://example.com/default-profile.png",
                         joinDate: new Date().toISOString().split('T')[0],
                         images: [],
-                        earnings: "0"
+                        earnings: "0",
+                        commissionRate: 0,
+                        // Bank Details - flat fields
+                        accountHolderName: values.accountHolderName,
+                        accountNumber: values.accountNumber,
+                        ifscCode: values.ifscCode,
+                        bankName: values.bankName,
+                        accountType: values.accountType,
+                        branchName: values.branchName,
+                        // Bank Details - nested object
+                        bankDetails: {
+                            accountHolderName: values.accountHolderName,
+                            accountNumber: values.accountNumber,
+                            ifscCode: values.ifscCode,
+                            bankName: values.bankName,
+                            accountType: values.accountType,
+                            branchName: values.branchName,
+                        }
                     };
 
                     const response = await providerService.create(payload);
@@ -531,122 +559,136 @@ const DhobiRegistrationScreen = ({ navigation }: DhobiRegistrationScreenProps) =
                                             style={styles.addBtn}>
                                             <Text style={styles.addBtnText}>+ Add Service</Text>
                                         </TouchableOpacity>
-
-                                        <InputField
-                                            label="Commission Rate (%)"
-                                            placeholderTextColor={COLORS.DarkGray}
-                                            placeholder="e.g. 15"
-                                            value={values.commissionRate}
-                                            // onChangeText={setCommissionRate}
-                                            onChangeText={(text) => {
-                                                setFieldValue('commissionRate', text);
-                                                setFieldTouched('commissionRate', true, false);
-                                            }}
-                                            keyboardType="numeric"
-                                        />
-
-                                        {touched.commissionRate && errors.commissionRate && (
-                                            <Text style={styles.error}>{errors.commissionRate}</Text>
-                                        )}
-
-                                        <View style={[styles.privacyBox, { backgroundColor: '#fffbe9' }]}>
-
-                                            <SvgXml xml={SVG_ICON.Star_Icon('#004EEB')} width={22} height={22} style={{
-                                                marginRight: 4,
-                                                marginTop: 0,
-                                            }} />
-                                            <View style={styles.privacyTextWrapper}>
-                                                <Text style={styles.privacyTitle}>Commission Information</Text>
-                                                <Text style={[styles.privacyText, { color: COLORS.BLACK }]}>
-                                                    This is the percentage we charge for each completed order. Standard rate is 15%,
-                                                    but it may vary based on your location and services.
-                                                </Text>
-                                            </View>
-                                        </View>
                                     </View>
                                 )}
 
                                 {step === 4 && (
-                                    <View style={styles.step4Container}>
-                                        <Text style={styles.stepTitle}>Review Your Information</Text>
-                                        <Text style={styles.stepSubtitle}>Please verify all details before submitting</Text>
+                                    <View style={styles.stepContainer}>
+                                        <Text style={styles.stepTitle}>Bank Details</Text>
+                                        <Text style={styles.stepSubtitle}>Enter your bank account details for payments</Text>
 
-                                        {/* Basic Info */}
-                                        <View style={styles.reviewBox}>
-                                            <View style={styles.sectionHeader}>
-                                                <View style={[styles.badge, { backgroundColor: COLORS.PRIMARY_HOVER }]}>
-                                                    <Text style={styles.badgeText}>1</Text>
-                                                </View>
-                                                <Text style={styles.reviewSectionTitle}>Basic Information</Text>
-                                            </View>
+                                        <InputField
+                                            label="Account Holder Name *"
+                                            placeholder="Name as on bank account"
+                                            placeholderTextColor={COLORS.DarkGray}
+                                            value={values.accountHolderName}
+                                            onChangeText={handleChange('accountHolderName')}
+                                        />
+                                        {touched.accountHolderName && errors.accountHolderName && (
+                                            <Text style={styles.error}>{errors.accountHolderName}</Text>
+                                        )}
 
-                                            <View style={styles.reviewRow}>
-                                                <Text style={styles.reviewLabel}>Business:</Text>
-                                                <Text style={styles.reviewValue}>{values.businessName}</Text>
-                                            </View>
-                                            <View style={styles.reviewRow}>
-                                                <Text style={styles.reviewLabel}>Owner:</Text>
-                                                <Text style={styles.reviewValue}>{values.ownerName}</Text>
-                                            </View>
-                                            <View style={styles.reviewRow}>
-                                                <Text style={styles.reviewLabel}>Email:</Text>
-                                                <Text style={styles.reviewValue}>{values.email}</Text>
-                                            </View>
-                                            <View style={styles.reviewRow}>
-                                                <Text style={styles.reviewLabel}>Mobile:</Text>
-                                                <Text style={styles.reviewValue}>{values.mobile}</Text>
-                                            </View>
-                                            <View style={styles.reviewRow}>
-                                                <Text style={styles.reviewLabel}>Address:</Text>
-                                                <Text style={styles.reviewValue}>{values.address}</Text>
-                                            </View>
-                                        </View>
+                                        <InputField
+                                            label="Bank Name *"
+                                            placeholder="e.g., State Bank of India"
+                                            placeholderTextColor={COLORS.DarkGray}
+                                            value={values.bankName}
+                                            onChangeText={handleChange('bankName')}
+                                        />
+                                        {touched.bankName && errors.bankName && (
+                                            <Text style={styles.error}>{errors.bankName}</Text>
+                                        )}
 
+                                        <InputField
+                                            label="Account Number *"
+                                            placeholder="Enter account number"
+                                            placeholderTextColor={COLORS.DarkGray}
+                                            value={values.accountNumber}
+                                            onChangeText={handleChange('accountNumber')}
+                                            keyboardType="numeric"
+                                            isPassword
+                                        />
+                                        {touched.accountNumber && errors.accountNumber && (
+                                            <Text style={styles.error}>{errors.accountNumber}</Text>
+                                        )}
 
-                                        {/* Location Details */}
-                                        <View style={styles.reviewBox}>
-                                            <View style={styles.sectionHeader}>
-                                                <View style={styles.badge}><Text style={styles.badgeText}>2</Text></View>
-                                                <Text style={styles.reviewSectionTitle}>Location Details</Text>
-                                            </View>
+                                        <InputField
+                                            label="Confirm Account Number *"
+                                            placeholder="Re-enter account number"
+                                            placeholderTextColor={COLORS.DarkGray}
+                                            value={values.confirmAccountNumber}
+                                            onChangeText={handleChange('confirmAccountNumber')}
+                                            keyboardType="numeric"
+                                            isPassword
+                                        />
+                                        {touched.confirmAccountNumber && errors.confirmAccountNumber && (
+                                            <Text style={styles.error}>{errors.confirmAccountNumber}</Text>
+                                        )}
 
-                                            <View style={styles.reviewRow}>
-                                                <Text style={styles.reviewLabel}>Service Areas:</Text>
-                                                <Text style={styles.reviewValue}>{values.serviceArea}</Text>
-                                            </View>
-                                            <View style={styles.reviewRow}>
-                                                <Text style={styles.reviewLabel}>Coordinates:</Text>
-                                                <Text style={[styles.reviewValue, { color: values.latitude ? COLORS.SUCCESS : COLORS.RED }]}>
-                                                    {values.latitude && values.longitude
-                                                        ? `${values.latitude.toFixed(5)}, ${values.longitude.toFixed(5)}`
-                                                        : 'Not captured'}
+                                        <InputField
+                                            label="IFSC Code *"
+                                            placeholder="e.g., SBIN0001234"
+                                            placeholderTextColor={COLORS.DarkGray}
+                                            value={values.ifscCode}
+                                            onChangeText={(text) => setFieldValue('ifscCode', text.toUpperCase())}
+                                            autoCapitalize="characters"
+                                        />
+                                        {touched.ifscCode && errors.ifscCode && (
+                                            <Text style={styles.error}>{errors.ifscCode}</Text>
+                                        )}
+
+                                        <InputField
+                                            label="Branch Name *"
+                                            placeholder="e.g., Indore Main Branch"
+                                            placeholderTextColor={COLORS.DarkGray}
+                                            value={values.branchName}
+                                            onChangeText={handleChange('branchName')}
+                                        />
+                                        {touched.branchName && errors.branchName && (
+                                            <Text style={styles.error}>{errors.branchName}</Text>
+                                        )}
+
+                                        <Text style={styles.accountTypeLabel}>Account Type *</Text>
+                                        <View style={styles.accountTypeContainer}>
+                                            <TouchableOpacity
+                                                style={[
+                                                    styles.accountTypeButton,
+                                                    values.accountType === 'savings'
+                                                        ? styles.accountTypeButtonActive
+                                                        : styles.accountTypeButtonInactive,
+                                                ]}
+                                                onPress={() => setFieldValue('accountType', 'savings')}
+                                                activeOpacity={0.8}
+                                            >
+                                                <Text style={{ fontSize: 16 }}>🏦</Text>
+                                                <Text
+                                                    style={[
+                                                        styles.accountTypeBtnText,
+                                                        values.accountType === 'savings'
+                                                            ? styles.accountTypeBtnTextActive
+                                                            : styles.accountTypeBtnTextInactive,
+                                                    ]}
+                                                >
+                                                    Savings
                                                 </Text>
-                                            </View>
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity
+                                                style={[
+                                                    styles.accountTypeButton,
+                                                    values.accountType === 'current'
+                                                        ? styles.accountTypeButtonActive
+                                                        : styles.accountTypeButtonInactive,
+                                                ]}
+                                                onPress={() => setFieldValue('accountType', 'current')}
+                                                activeOpacity={0.8}
+                                            >
+                                                <Text style={{ fontSize: 16 }}>🏢</Text>
+                                                <Text
+                                                    style={[
+                                                        styles.accountTypeBtnText,
+                                                        values.accountType === 'current'
+                                                            ? styles.accountTypeBtnTextActive
+                                                            : styles.accountTypeBtnTextInactive,
+                                                    ]}
+                                                >
+                                                    Current
+                                                </Text>
+                                            </TouchableOpacity>
                                         </View>
-
-
-                                        {/* Services & Pricing */}
-                                        <View style={styles.reviewBox}>
-                                            <View style={styles.sectionHeader}>
-                                                <View style={[styles.badge, { backgroundColor: COLORS.SUCCESS }]}>
-                                                    <Text style={styles.badgeText}>3</Text>
-                                                </View>
-                                                <Text style={styles.reviewSectionTitle}>Services & Pricing</Text>
-                                            </View>
-
-                                            {values.services.map((s, i) => (
-                                                <View key={i} style={styles.reviewRow}>
-                                                    <Text style={styles.reviewLabel}>{s.name}:</Text>
-                                                    <Text style={styles.reviewValue}>₹{s.price}</Text>
-                                                </View>
-                                            ))}
-
-                                            <View style={styles.reviewRow}>
-                                                <Text style={styles.reviewLabel}>Commission Rate:</Text>
-                                                <Text style={styles.reviewValue}>{values.commissionRate}%</Text>
-                                            </View>
-                                        </View>
-
+                                        {touched.accountType && errors.accountType && (
+                                            <Text style={styles.error}>{errors.accountType}</Text>
+                                        )}
                                     </View>
                                 )}
 

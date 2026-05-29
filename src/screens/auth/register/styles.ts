@@ -362,7 +362,48 @@ const styles = StyleSheet.create({
         fontFamily: FONT_FAMILY_SEMIBOLD,
         fontSize: 14,
     },
-
+    accountTypeContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 5,
+        marginBottom: 15,
+    },
+    accountTypeButton: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 48,
+        borderRadius: 10,
+        borderWidth: 1.5,
+        marginHorizontal: 5,
+    },
+    accountTypeButtonActive: {
+        borderColor: '#8f00ff',
+        backgroundColor: '#F5E8FF',
+    },
+    accountTypeButtonInactive: {
+        borderColor: '#E5E7EB',
+        backgroundColor: '#F9FAFB',
+    },
+    accountTypeLabel: {
+        fontSize: 13,
+        fontFamily: FONT_FAMILY_SEMIBOLD,
+        color: COLORS.BLACK,
+        marginBottom: 8,
+        marginTop: 10,
+    },
+    accountTypeBtnText: {
+        fontSize: 14,
+        fontFamily: FONT_FAMILY_SEMIBOLD,
+        marginLeft: 6,
+    },
+    accountTypeBtnTextActive: {
+        color: '#8f00ff',
+    },
+    accountTypeBtnTextInactive: {
+        color: '#6B7280',
+    },
 
 });
 
